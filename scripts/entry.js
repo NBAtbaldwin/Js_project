@@ -14,12 +14,12 @@ function init() {
 
   const drumKitSoundNames = [
           '808bass2',
-          'Kick',
+          'kick',
           'snare',
           'clap',
           'hat',
           'click',
-          'SynthChordF%23m',
+          'keyboard',
           'pianoChordE',
       ];
   drumKitBuffers = {};
