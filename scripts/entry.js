@@ -5,7 +5,7 @@ let drumKitBuffers;
 let context;
 let audioBufferSourceNode;
 
-const keyCodes = [65, 83, 68, 70, 71, 72];
+const keyCodes = [65, 83, 68, 70, 71, 72, 74, 75];
 
 window.addEventListener('load', init, false);
 function init() {
@@ -13,12 +13,14 @@ function init() {
   context = new AudioContext();
 
   const drumKitSoundNames = [
-          '808bass',
+          '808bass2',
           'Kick',
           'snare',
           'clap',
           'hat',
-          'click'
+          'click',
+          'SynthChordF%23m',
+          'pianoChordE',
       ];
   drumKitBuffers = {};
   drumKitSoundNames.forEach((soundName, idx) => {
