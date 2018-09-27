@@ -14,7 +14,7 @@ function init() {
 
   const drumKitSoundNames = [
           '808bass2',
-          'kick',
+          'Kick',
           'snare',
           'clap',
           'hat',
@@ -35,29 +35,66 @@ function init() {
 
   createScene();
 
+  let playButton = document.getElementById('play');
+  let stopButton = document.getElementById('stop');
   let metButton = document.getElementById('metronome');
+  let recordButton = document.getElementById('record');
+
+  let metronome;
+
   metButton.addEventListener('click', (e) => {
-    const metronome = new Metronome(drumKitBuffers, context, 80, keyCodes);
+    if (Array.from(playButton.classList).join('').includes("playing")) {
+      return;
+    }
+    metronome = new Metronome(drumKitBuffers, context, 80, keyCodes);
     metronome.tempoEventListener();
     metronome.handlePlayWithMetronome();
   });
 
-  let playButton = document.getElementById('play');
   playButton.addEventListener('click', (e) => {
-    const metronome = new Metronome(drumKitBuffers, context, 80, keyCodes);
+    if (Array.from(playButton.classList).join('').includes("playing")) {
+      return;
+    }
+    metronome = new Metronome(drumKitBuffers, context, 80, keyCodes);
     metronome.tempoEventListener();
     metronome.handlePlay();
+    playButton.classList.add("playing")
   });
 
+  stopButton.addEventListener('click', (e) => {
+    if (!Array.from(playButton.classList).join('').includes("playing")) {
+      return;
+    }
+    metronome.stop();
+    metronome = null;
+    playButton.classList.remove("playing");
+    recordButton.classList.remove("recording");
+
+  });
+
+  recordButton.addEventListener('click', (e) => {
+    if (Array.from(playButton.classList).join('').includes("playing")) {
+      return;
+    }
+    if (Array.from(recordButton.classList).join('').includes("recording")) {
+      return;
+    }
+    metronome = new Metronome(drumKitBuffers, context, 80, keyCodes);
+    metronome.tempoEventListener();
+    metronome.keyHitEventListener();
+    metronome.handlePlayWithMetronome();
+    playButton.classList.add("playing");
+    recordButton.classList.add("recording");
+  });
 
 }
 
-function playSound(buffer, time) {
-  var source = context.createBufferSource();
-  source.buffer = buffer;
-  source.connect(context.destination);
-  source.start(time);
-}
+// function playSound(buffer, time) {
+//   var source = context.createBufferSource();
+//   source.buffer = buffer;
+//   source.connect(context.destination);
+//   source.start(time);
+// }
 
 window.addEventListener('keydown', function(e) {
   audioBufferSourceNode = context.createBufferSource();
@@ -65,21 +102,4 @@ window.addEventListener('keydown', function(e) {
   audioBufferSourceNode.buffer = drumKitBuffers[code];
   audioBufferSourceNode.connect(context.destination);
   audioBufferSourceNode.start();
-  // console.log(e);
-
-
-  // for (var bar = 0; bar < 2; bar++) {
-  //   var time = startTime + bar * 8 * eighthNoteTime;
-  //   // Play the bass (kick) drum on beats 1, 5
-  //   playSound(kick, time);
-  //   playSound(kick, time + 4 * eighthNoteTime);
-  //
-  //   // Play the snare drum on beats 3, 7
-  //   playSound(snare, time + 2 * eighthNoteTime);
-  //   playSound(snare, time + 6 * eighthNoteTime);
-  //
-  //   // Play the hi-hat every eighth note.
-  //   for (var i = 0; i < 8; ++i) {
-  //     playSound(hihat, time + i * eighthNoteTime);
-  //   }
 });

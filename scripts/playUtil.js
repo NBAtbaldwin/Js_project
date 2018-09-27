@@ -17,3 +17,22 @@ export const hightlightBeat = (beat) => {
     node.classList.add('on-beat');
   });
 }
+
+export const unHighlightBeat = (beat) => {
+  let beatAlias;
+  beat === 0 ? beatAlias = 32 : beatAlias = beat;
+  const row = document.getElementById(`row-${beatAlias - 1}`);
+  const arr = Array.from(row.childNodes);
+  arr.forEach((node, idx) => {
+    node.classList.remove('on-beat');
+  });
+}
+
+export const unHighlightLastBeat = (beat) => {
+  const row = document.getElementById(`row-${beat+1}`);
+  const arr = Array.from(row.childNodes);
+  arr.forEach((node, idx) => {
+    node.classList.remove('on-beat');
+  });
+  console.log('hey');
+}
