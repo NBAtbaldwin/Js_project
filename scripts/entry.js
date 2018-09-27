@@ -22,7 +22,7 @@ function init() {
       ];
   drumKitBuffers = {};
   drumKitSoundNames.forEach((soundName, idx) => {
-    fetch('https://raw.githubusercontent.com/NBAtbaldwin/hacky_drums/master/' + soundName + '.wav')
+    fetch('https://raw.githubusercontent.com/NBAtbaldwin/Js_project/master/assets/drum_kit/' + soundName + '.wav')
     .then(response => response.arrayBuffer())
     .then(buffer => {
         context.decodeAudioData(buffer, decoded => {
