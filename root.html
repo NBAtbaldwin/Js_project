@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <script type="application/javascript" src="scripts/bundle.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="styles/util.css"/>
+    <link rel="stylesheet" type="text/css" href="styles/main.css"/>
+    <title></title>
+  </head>
+  <body>
+    <section class="pads">
+      <div class="pad-container">
+        <div data-key="65" class="pad">snare
+        </div>
+        <div data-key="84" class="pad">kick
+        </div>
+      </div>
+      <div class="buttons">
+        <button type="button" id="metronome">metronome</button>
+        <button type="button" id="up-tempo">+</button>
+        <button type="button" id="down-tempo">-</button>
+        <button type="button" id="play">Play</button>
+
+        <button type="button" name="button">record</button>
+      </div>
+      <div>
+        <div id="sequencer-master">
+
+        </div>
+      </div>
+    </section>
+    <audio preload="auto" data-key="65" src="assets/drum_kit/snare.wav"></audio>
+    <audio preload="auto" data-key="83" src="assets/drum_kit/kick.wav"></audio>
+  </body>
+</html>
