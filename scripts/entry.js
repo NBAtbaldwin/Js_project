@@ -12,6 +12,8 @@ function init() {
   const soundFactory = new SoundUtil(context);
   soundFactory.generateDrums();
   soundFactory.generateChord(2);
+  soundFactory.generateMono(2);
+
   soundFactory.keyDownEventListener();
 
   SceneUtil.createScenes();
@@ -36,7 +38,7 @@ function init() {
 
   playButton.addEventListener('click', (e) => {
     if (metronome === null) {
-      metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes);
+      metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
       metronome.tempoEventListener();
       metronome.handlePlay();
       metronome.playing = true;
@@ -53,7 +55,7 @@ function init() {
       return;
     }
     if (metronome === null) {
-      metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes);
+      metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
       metronome.tempoEventListener();
       metronome.handlePlay();
       metronome.playing = true;
@@ -67,7 +69,7 @@ function init() {
 
   recordButton.addEventListener('click', (e) => {
     if (metronome === null) {
-      metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes);
+      metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
       metronome.tempoEventListener();
       metronome.keyHitEventListener();
       metronome.handlePlay();

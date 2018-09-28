@@ -4,13 +4,17 @@ class SoundUtil {
     this.context = context;
     this.drumKitSoundNames = [ '808bass2', 'Kick', 'snare', 'clap', 'hat', 'click' ];
     this.chordSoundNames = [ 'morphPadGSharpMi', 'EPianoCMa', 'pianoChordE', 'cosmicPadFMi', 'keyboard' ];
+    this.monoSoundNames = [ 'msSeq', 'electroFlow', 'analogue']
     this.drumKitBuffers = {};
     this.chordBuffers = {};
+    this.monoBuffers = {};
     this.generateChord = this.generateChord.bind(this);
     this.generateDrums = this.generateDrums.bind(this);
+    this.generateMono = this.generateMono.bind(this);
     this.keyDownEventListener = this.keyDownEventListener.bind(this);
     this.drumKeyCodes = [65, 83, 68, 70, 71, 72, 74, 75];
     this.chordKeyCodes = [81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221];
+    this.monoKeyCodes = [49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 189, 187];
   }
 
   generateDrums() {
@@ -37,6 +41,18 @@ class SoundUtil {
     });
   }
 
+  generateMono(idx) {
+    this.monoKeyCodes.forEach((code) => {
+      fetch(`https://raw.githubusercontent.com/NBAtbaldwin/Js_project/master/assets/drum_kit/${this.monoSoundNames[idx]}.wav`)
+      .then(response => response.arrayBuffer())
+      .then(buffer => {
+        this.context.decodeAudioData(buffer, decoded => {
+          this.monoBuffers[code] = decoded;
+        });
+      })
+    })
+  }
+
   keyDownEventListener() {
     const that = this;
     window.addEventListener('keydown', function(e) {
@@ -48,7 +64,7 @@ class SoundUtil {
         source.start();
       } else if (Object.keys(that.chordBuffers).includes(code.toString())) {
         source.buffer = that.chordBuffers[code];
-        source.playbackRate.value = that.pitchFromIndex(code);
+        source.playbackRate.value = that.pitchFromIndex(code, 'chord');
         source.connect(that.context.destination);
         source.start();
         // window.addEventListener('keyup', (e) => {
@@ -56,13 +72,25 @@ class SoundUtil {
         //     source.stop()
         //   }
         // })
+      } else if (Object.keys(that.monoBuffers).includes(code.toString())) {
+        source.buffer = that.monoBuffers[code];
+        source.playbackRate.value = that.pitchFromIndex(code, 'mono');
+        source.connect(that.context.destination);
+        source.start();
       }
     });
   }
 
-  pitchFromIndex(code) {
-    const idx = this.chordKeyCodes.indexOf(code);
-    return (1 - 0.0625*(idx))*2;
+  pitchFromIndex(code, instrument) {
+    let idx;
+    switch (instrument) {
+      case "chord":
+        idx = this.chordKeyCodes.indexOf(code)
+        return (1 - ((idx/12)*.5))*2;
+      case "mono":
+        idx = this.monoKeyCodes.indexOf(code);
+        return (1 - ((idx/12)*.5))*2;
+    }
   }
 
 }

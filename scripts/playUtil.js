@@ -55,6 +55,5 @@ export const clearScene = () => {
 }
 
 export const pitchTransform = (keyIdx) => {
-  keyIdx -= 12;
-  return (1 - 0.0625*(keyIdx))*2;
+  return (1 - ((keyIdx/12)*.5))*2;
 }
