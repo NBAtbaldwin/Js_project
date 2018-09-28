@@ -2,8 +2,8 @@ import * as playUtil from './playUtil';
 import * as recordingUtil from './recordingUtil';
 
 class Metronome {
-  constructor(drumKitArray, context, tempo, keyCodes) {
-    this.sounds = drumKitArray;
+  constructor(drumKitArray, chordArray, context, tempo, drumKeyCodes, chordKeyCodes) {
+    this.sounds = {drums: drumKitArray, chords: chordArray}
     this.context = context;
     this.tempo = tempo;
     this.handlePlay = this.handlePlay.bind(this);
@@ -15,7 +15,7 @@ class Metronome {
     this.startTime = 0.0
     this.beat = 0;
     this.timeoutId = 0;
-    this.keyCodes = keyCodes;
+    this.keyCodes = {drums: drumKeyCodes, chords: chordKeyCodes};
     this.recording = false;
     this.metronomePlaying = false;
     this.playing = false;
@@ -30,13 +30,13 @@ class Metronome {
   playClick(time) {
     if (this.beat % 32 === 0) {
       const source = this.context.createBufferSource();
-      source.buffer = this.sounds[72];
+      source.buffer = this.sounds.drums[72];
       source.connect(this.context.destination);
       source.start(time);
     } else if (this.beat % 8 === 0) {
 
       const source = this.context.createBufferSource();
-      source.buffer = this.sounds[72];
+      source.buffer = this.sounds.drums[72];
 
       const gainNode = this.context.createGain()
       gainNode.gain.value = 0.5
@@ -53,11 +53,21 @@ class Metronome {
       return;
     }
     soundList.forEach((keyIdx) => {
-      let soundIdx = this.keyCodes[keyIdx];
-      let source = this.context.createBufferSource();
-      source.buffer = this.sounds[soundIdx];
-      source.connect(this.context.destination);
-      source.start(time);
+      if (keyIdx < 12) {
+        let soundIdx = this.keyCodes.drums[keyIdx];
+        let source = this.context.createBufferSource();
+        source.buffer = this.sounds.drums[soundIdx];
+        source.connect(this.context.destination);
+        source.start(time);
+      } else if (keyIdx > 11 && keyIdx < 24) {
+        console.log(this.keyCodes.chords);
+        let soundIdx = this.keyCodes.chords[keyIdx-12];
+        let source = this.context.createBufferSource();
+        source.buffer = this.sounds.chords[soundIdx];
+        source.playbackRate.value = playUtil.pitchTransform(keyIdx);
+        source.connect(this.context.destination);
+        source.start(time);
+      }
     });
   }
 
@@ -105,7 +115,7 @@ class Metronome {
       if (this.recording === false){
         return;
       }
-      console.log(this.recording);
+      console.log(this.keyCodes.drums);
       let code = e.keyCode;
       let id = recordingUtil.matchKeyStrokeToDivId(code, this.keyCodes, this.beat);
       console.log(id)

@@ -1,48 +1,60 @@
 export const getSoundIdx = (beat) => {
   const drumSoundIdxList = []
-  const row = document.getElementById(`row-${beat}`);
-  const arr = Array.from(row.childNodes);
-  arr.forEach((node, idx) => {
-    if (Array.from(node.classList).join('').includes("selected")) {
-      drumSoundIdxList.push(idx);
-    }
+  let rows = document.getElementsByClassName(`row-${beat}`);
+  rows = Array.from(rows);
+  rows.forEach((row, idx1) => {
+    let colArr = Array.from(row.childNodes);
+    colArr.forEach((node, idx2) => {
+      if (Array.from(node.classList).join('').includes("selected")) {
+        drumSoundIdxList.push(idx2 + idx1*12);
+      }
+    })
   });
+  // console.log(drumSoundIdxList);
   return drumSoundIdxList;
 }
 
 export const hightlightBeat = (beat) => {
-  const row = document.getElementById(`row-${beat}`);
-  const arr = Array.from(row.childNodes);
-  arr.forEach((node, idx) => {
-    node.classList.add('on-beat');
+  let rows = document.getElementsByClassName(`row-${beat}`);
+  rows = Array.from(rows);
+  rows.forEach((row, idx) => {
+    let colArr = Array.from(row.childNodes);
+    colArr.forEach((node, idx) => {
+      node.classList.add('on-beat');
+    })
   });
 }
 
 export const unHighlightBeat = (beat) => {
   let beatAlias;
   beat === 0 ? beatAlias = 32 : beatAlias = beat;
-  const row = document.getElementById(`row-${beatAlias - 1}`);
-  const arr = Array.from(row.childNodes);
-  arr.forEach((node, idx) => {
-    node.classList.remove('on-beat');
+  let rows = document.getElementsByClassName(`row-${beatAlias - 1}`);
+  rows = Array.from(rows);
+  rows.forEach((row, idx) => {
+    let colArr = Array.from(row.childNodes);
+    colArr.forEach((node, idx) => {
+      node.classList.remove('on-beat');
+    })
   });
-}
-
-export const unHighlightLastBeat = (beat) => {
-  const row = document.getElementById(`row-${beat+1}`);
-  const arr = Array.from(row.childNodes);
-  arr.forEach((node, idx) => {
-    node.classList.remove('on-beat');
-  });
-  console.log('hey');
 }
 
 export const clearScene = () => {
   const master = document.getElementById("sequence-master");
-  const rows = master.childNodes;
-  rows.forEach((row, rowIdx) => {
-    row.childNodes.forEach((col, colIdx) => {
-      col.classList.remove('on-beat');
-    })
-  })
+  let sequences = master.childNodes;
+  sequences = Array.from(sequences);
+  sequences.forEach((sequence) => {
+    let rows = sequence.childNodes;
+    rows = Array.from(rows);
+    rows.forEach((row, idx) => {
+      let colArr = Array.from(row.childNodes);
+      colArr.forEach((node, idx) => {
+        node.classList.remove('on-beat');
+      })
+    });
+  });
+}
+
+export const pitchTransform = (keyIdx) => {
+  keyIdx -= 12;
+  return (1 - 0.0625*(keyIdx))*2;
 }

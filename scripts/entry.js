@@ -1,37 +1,18 @@
 import Metronome from './metronome';
 import * as SceneUtil from './createScene';
+import SoundUtil from './soundUtil';
 
-let drumKitBuffers;
 let context;
 let audioBufferSourceNode;
-
-const keyCodes = [65, 83, 68, 70, 71, 72, 74, 75];
 
 window.addEventListener('load', init, false);
 function init() {
   window.AudioContext = window.AudioContext||window.webkitAudioContext;
   context = new AudioContext();
-
-  const drumKitSoundNames = [
-          '808bass2',
-          'Kick',
-          'snare',
-          'clap',
-          'hat',
-          'click',
-          'keyboard',
-          'pianoChordE',
-      ];
-  drumKitBuffers = {};
-  drumKitSoundNames.forEach((soundName, idx) => {
-    fetch('https://raw.githubusercontent.com/NBAtbaldwin/Js_project/master/assets/drum_kit/' + soundName + '.wav')
-    .then(response => response.arrayBuffer())
-    .then(buffer => {
-        context.decodeAudioData(buffer, decoded => {
-          drumKitBuffers[keyCodes[idx]] = decoded;
-        });
-      })
-  });
+  const soundFactory = new SoundUtil(context);
+  soundFactory.generateDrums();
+  soundFactory.generateChord(2);
+  soundFactory.keyDownEventListener();
 
   SceneUtil.createScenes();
 
@@ -40,6 +21,7 @@ function init() {
   let recordButton = document.getElementById('record');
   let clearButton = document.getElementById('clear');
   let tempoField = document.getElementById('tempo');
+  let chordNodeList = document.getElementsByClassName('chord');
   let metronome = null;
 
   metButton.addEventListener('click', (e) => {
@@ -54,7 +36,7 @@ function init() {
 
   playButton.addEventListener('click', (e) => {
     if (metronome === null) {
-      metronome = new Metronome(drumKitBuffers, context, parseInt(document.getElementById('tempo').value), keyCodes);
+      metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes);
       metronome.tempoEventListener();
       metronome.handlePlay();
       metronome.playing = true;
@@ -71,7 +53,7 @@ function init() {
       return;
     }
     if (metronome === null) {
-      metronome = new Metronome(drumKitBuffers, context, parseInt(document.getElementById('tempo').value), keyCodes);
+      metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes);
       metronome.tempoEventListener();
       metronome.handlePlay();
       metronome.playing = true;
@@ -85,7 +67,7 @@ function init() {
 
   recordButton.addEventListener('click', (e) => {
     if (metronome === null) {
-      metronome = new Metronome(drumKitBuffers, context, parseInt(document.getElementById('tempo').value), keyCodes);
+      metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes);
       metronome.tempoEventListener();
       metronome.keyHitEventListener();
       metronome.handlePlay();
@@ -110,21 +92,10 @@ function init() {
     })
   });
 
-  tempoField.addEventListener('change', (e) => {
-    console.log(e.target.value);
+  Array.from(chordNodeList).forEach((node, idx) => {
+    node.addEventListener('click', (e) => {
+      soundFactory.generateChord(idx)
+    })
   })
 
 }
-
-window.addEventListener('keydown', function(e) {
-  audioBufferSourceNode = context.createBufferSource();
-  let code = e.keyCode;
-  audioBufferSourceNode.buffer = drumKitBuffers[code];
-  audioBufferSourceNode.connect(context.destination);
-  audioBufferSourceNode.start();
-});
-
-// const getTempo = () => {
-//   const input = document.getElementById("tempo");
-//   console.log(input.value);
-// }

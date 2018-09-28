@@ -14,13 +14,13 @@ export const createScenes = () => {
 const createScene = (subMaster, num) => {
   for (let i = 0; i < 32; i++) {
     let rowDiv = document.createElement("div");
-    rowDiv.setAttribute("id", `row-${i}`);
-    rowDiv.setAttribute("class", `sequencer-${num}`);
+    rowDiv.setAttribute("class", `row-${i}`);
+    // rowDiv.setAttribute("class", `sequencer-${num}`);
     subMaster.appendChild(rowDiv);
     for (let j = 0; j < 12; j++) {
       let colDiv = document.createElement("div");
-      colDiv.setAttribute("id", `row-${i}-col-${j}`);
-      colDiv.setAttribute("class", `sequencer-${num}`)
+      colDiv.setAttribute("id", `row-${i}-col-${j+(num*12)}`);
+      // colDiv.setAttribute("class", `sequencer-${num}`)
       rowDiv.appendChild(colDiv);
 
       // click div to create note

@@ -9,16 +9,16 @@ audio {
 
 section {
   height: 100%;
-  width: 100%;
+  width: 80%;
+  margin: auto;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
 section > div:last-child {
   height: 500px;
-  width: 100%;
+  width: 66.6%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -66,8 +66,13 @@ section > div:last-child {
   height: 50px;
   width: 400px;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
+}
+
+.buttons {
+  width: 33.3%;
 }
 
 .pad {
