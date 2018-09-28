@@ -43,12 +43,14 @@ function init() {
   let metronome;
 
   metButton.addEventListener('click', (e) => {
-    if (Array.from(playButton.classList).join('').includes("playing")) {
+    if (!Array.from(playButton.classList).join('').includes("playing")) {
       return;
     }
-    metronome = new Metronome(drumKitBuffers, context, 80, keyCodes);
-    metronome.tempoEventListener();
-    metronome.handlePlayWithMetronome();
+    
+    // metronome = new Metronome(drumKitBuffers, context, 80, keyCodes);
+    // metronome.tempoEventListener();
+    // metronome.handlePlayWithMetronome();
+
   });
 
   playButton.addEventListener('click', (e) => {
@@ -81,8 +83,8 @@ function init() {
     }
     metronome = new Metronome(drumKitBuffers, context, 80, keyCodes);
     metronome.tempoEventListener();
-    metronome.keyHitEventListener();
-    metronome.handlePlayWithMetronome();
+    // metronome.keyHitEventListener();
+    metronome.handleRecord();
     playButton.classList.add("playing");
     recordButton.classList.add("recording");
   });

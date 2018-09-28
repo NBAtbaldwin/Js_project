@@ -11,7 +11,11 @@ const createScene = () => {
       rowDiv.appendChild(colDiv);
       colDiv.addEventListener('click', () => {
         Array.from(colDiv.classList).join('').includes("selected") ? colDiv.classList.remove("selected") : colDiv.classList.add("selected")
-        console.log(colDiv.classList);
+      })
+      colDiv.addEventListener('mouseover', (e) => {
+        if(e.buttons == 1 || e.buttons == 3) {
+          Array.from(colDiv.classList).join('').includes("selected") ? colDiv.classList.remove("selected") : colDiv.classList.add("selected")
+        }
       })
     }
   }
