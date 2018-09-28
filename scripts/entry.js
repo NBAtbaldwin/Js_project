@@ -38,6 +38,7 @@ function init() {
   let playButton = document.getElementById('play');
   let metButton = document.getElementById('metronome');
   let recordButton = document.getElementById('record');
+  let clearButton = document.getElementById('clear');
 
   let metronome = null;
 
@@ -82,14 +83,17 @@ function init() {
 
   });
 
-}
+  clearButton.addEventListener('click', (e) => {
+    const master = document.getElementById("sequencer-master");
+    const rows = master.childNodes;
+    rows.forEach((row, rowIdx) => {
+      row.childNodes.forEach((col, colIdx) => {
+        col.classList.remove('selected');
+      })
+    })
+  });
 
-// function playSound(buffer, time) {
-//   var source = context.createBufferSource();
-//   source.buffer = buffer;
-//   source.connect(context.destination);
-//   source.start(time);
-// }
+}
 
 window.addEventListener('keydown', function(e) {
   audioBufferSourceNode = context.createBufferSource();
