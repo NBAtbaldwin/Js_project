@@ -38,7 +38,7 @@ export const unHighlightLastBeat = (beat) => {
 }
 
 export const clearScene = () => {
-  const master = document.getElementById("sequencer-master");
+  const master = document.getElementById("sequence-master");
   const rows = master.childNodes;
   rows.forEach((row, rowIdx) => {
     row.childNodes.forEach((col, colIdx) => {

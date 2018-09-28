@@ -1,5 +1,5 @@
 import Metronome from './metronome';
-import createScene from './createScene';
+import * as SceneUtil from './createScene';
 
 let drumKitBuffers;
 let context;
@@ -33,7 +33,7 @@ function init() {
       })
   });
 
-  createScene();
+  SceneUtil.createScenes();
 
   let playButton = document.getElementById('play');
   let metButton = document.getElementById('metronome');
@@ -101,7 +101,7 @@ function init() {
   });
 
   clearButton.addEventListener('click', (e) => {
-    const master = document.getElementById("sequencer-master");
+    const master = document.getElementById("sequence-master");
     const rows = master.childNodes;
     rows.forEach((row, rowIdx) => {
       row.childNodes.forEach((col, colIdx) => {
