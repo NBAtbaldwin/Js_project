@@ -82,14 +82,11 @@ class Metronome {
   }
 
   tempoEventListener() {
-    const upTempo = document.getElementById("up-tempo");
-    const downTempo = document.getElementById("down-tempo");
-    upTempo.addEventListener('click', (e) => {
-      this.tempo += 10;
-    });
-    downTempo.addEventListener('click', (e) => {
-      this.tempo -= 10;
-    });
+    let tempoField = document.getElementById('tempo');
+
+    tempoField.addEventListener('change', (e) => {
+      this.tempo = e.target.value;
+    })
   }
 
   keyHitEventListener() {

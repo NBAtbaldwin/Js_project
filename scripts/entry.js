@@ -39,7 +39,7 @@ function init() {
   let metButton = document.getElementById('metronome');
   let recordButton = document.getElementById('record');
   let clearButton = document.getElementById('clear');
-
+  let tempoField = document.getElementById('tempo');
   let metronome = null;
 
   metButton.addEventListener('click', (e) => {
@@ -54,7 +54,24 @@ function init() {
 
   playButton.addEventListener('click', (e) => {
     if (metronome === null) {
-      metronome = new Metronome(drumKitBuffers, context, 80, keyCodes);
+      metronome = new Metronome(drumKitBuffers, context, parseInt(document.getElementById('tempo').value), keyCodes);
+      metronome.tempoEventListener();
+      metronome.handlePlay();
+      metronome.playing = true;
+    } else if(metronome.playing === true) {
+      metronome.metronomePlaying = false;
+      metronome.stop();
+      metronome = null;
+      return;
+    }
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.keyCode !== 32) {
+      return;
+    }
+    if (metronome === null) {
+      metronome = new Metronome(drumKitBuffers, context, parseInt(document.getElementById('tempo').value), keyCodes);
       metronome.tempoEventListener();
       metronome.handlePlay();
       metronome.playing = true;
@@ -68,7 +85,7 @@ function init() {
 
   recordButton.addEventListener('click', (e) => {
     if (metronome === null) {
-      metronome = new Metronome(drumKitBuffers, context, 80, keyCodes);
+      metronome = new Metronome(drumKitBuffers, context, parseInt(document.getElementById('tempo').value), keyCodes);
       metronome.tempoEventListener();
       metronome.keyHitEventListener();
       metronome.handlePlay();
@@ -93,6 +110,10 @@ function init() {
     })
   });
 
+  tempoField.addEventListener('change', (e) => {
+    console.log(e.target.value);
+  })
+
 }
 
 window.addEventListener('keydown', function(e) {
@@ -102,3 +123,8 @@ window.addEventListener('keydown', function(e) {
   audioBufferSourceNode.connect(context.destination);
   audioBufferSourceNode.start();
 });
+
+// const getTempo = () => {
+//   const input = document.getElementById("tempo");
+//   console.log(input.value);
+// }
