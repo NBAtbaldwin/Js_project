@@ -19,6 +19,7 @@ class Metronome {
     this.keyCodes = keyCodes;
     this.recording = false;
     this.metronomePlaying = false;
+    this.playing = false;
   }
 
   stop() {
@@ -55,27 +56,27 @@ class Metronome {
     this.beat = 0;
     this.noteTime = 0.0
     this.startTime = this.context.currentTime + .005;
-    this.schedule('play');
+    this.schedule();
   }
 
   handlePlayWithMetronome() {
     this.beat = 0;
     this.noteTime = 0.0
     this.startTime = this.context.currentTime + .005;
-    this.schedule('metronome');
+    this.schedule();
   }
 
-  handleRecord() {
-    this.recording = true;
-    this.keyHitEventListener();
-    this.beat = 0;
-    this.noteTime = 0.0
-    this.startTime = this.context.currentTime + .005;
-    this.schedule('playWithMetronome');
-  }
+  // handleRecord() {
+  //   this.recording = true;
+  //   this.keyHitEventListener();
+  //   this.beat = 0;
+  //   this.noteTime = 0.0
+  //   this.startTime = this.context.currentTime + .005;
+  //   this.schedule();
+  // }
 
 
-  schedule(arg) {
+  schedule() {
     let currentTime = this.context.currentTime;
     currentTime -= this.startTime;
     while (this.noteTime < currentTime + .05) {
@@ -86,25 +87,10 @@ class Metronome {
           if (this.metronomePlaying) {
             this.playClick(contextPlayTime);
           }
-      // switch (arg) {
-      //   case 'metronome':
-      //     this.playClick(contextPlayTime);
-      //     break;
-      //   case 'play':
-      //     this.playSound(contextPlayTime);
-      //     if (this.metronomePlaying) {
-      //       this.playClick;
-      //     }
-      //     break;
-      //   case 'playWithMetronome':
-      //     this.playClick(contextPlayTime);
-      //     this.playSound(contextPlayTime);
-      //     break;
-      // }
       this.advanceNote();
     }
 
-    this.timeoutId = setTimeout(this.schedule.bind(this, arg), 0);
+    this.timeoutId = setTimeout(this.schedule, 0);
   }
 
   advanceNote() {

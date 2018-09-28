@@ -36,57 +36,50 @@ function init() {
   createScene();
 
   let playButton = document.getElementById('play');
-  let stopButton = document.getElementById('stop');
   let metButton = document.getElementById('metronome');
   let recordButton = document.getElementById('record');
 
-  let metronome;
+  let metronome = null;
 
   metButton.addEventListener('click', (e) => {
-    if (!Array.from(playButton.classList).join('').includes("playing")) {
+    if ( metronome === null || metronome === 'undefined' || metronome.playing === false) {
+      return;
+    } else if(metronome.metronomePlaying === true) {
+      metronome.metronomePlaying = false;
       return;
     }
-    
-    // metronome = new Metronome(drumKitBuffers, context, 80, keyCodes);
-    // metronome.tempoEventListener();
-    // metronome.handlePlayWithMetronome();
-
+    metronome.metronomePlaying = true;
   });
 
   playButton.addEventListener('click', (e) => {
-    if (Array.from(playButton.classList).join('').includes("playing")) {
+    if (metronome === null) {
+      metronome = new Metronome(drumKitBuffers, context, 80, keyCodes);
+      metronome.tempoEventListener();
+      metronome.handlePlay();
+      metronome.playing = true;
+    } else if(metronome.playing === true) {
+      metronome.metronomePlaying = false;
+      metronome.stop();
+      metronome = null;
       return;
     }
-    metronome = new Metronome(drumKitBuffers, context, 80, keyCodes);
-    metronome.tempoEventListener();
-    metronome.handlePlay();
-    playButton.classList.add("playing")
-  });
-
-  stopButton.addEventListener('click', (e) => {
-    if (!Array.from(playButton.classList).join('').includes("playing")) {
-      return;
-    }
-    metronome.stop();
-    metronome = null;
-    playButton.classList.remove("playing");
-    recordButton.classList.remove("recording");
-
   });
 
   recordButton.addEventListener('click', (e) => {
-    if (Array.from(playButton.classList).join('').includes("playing")) {
-      return;
+    if (metronome === null) {
+      metronome = new Metronome(drumKitBuffers, context, 80, keyCodes);
+      metronome.tempoEventListener();
+      metronome.keyHitEventListener();
+      metronome.handlePlay();
+      metronome.playing = true;
+      metronome.recording = true;
+    } else if (metronome.recording === true) {
+      metronome.recording = false;
+    } else if (metronome.playing === true) {
+      metronome.recording = true;
+      metronome.keyHitEventListener();
     }
-    if (Array.from(recordButton.classList).join('').includes("recording")) {
-      return;
-    }
-    metronome = new Metronome(drumKitBuffers, context, 80, keyCodes);
-    metronome.tempoEventListener();
-    // metronome.keyHitEventListener();
-    metronome.handleRecord();
-    playButton.classList.add("playing");
-    recordButton.classList.add("recording");
+
   });
 
 }
