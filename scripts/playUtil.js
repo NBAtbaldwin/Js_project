@@ -36,3 +36,13 @@ export const unHighlightLastBeat = (beat) => {
   });
   console.log('hey');
 }
+
+export const clearScene = () => {
+  const master = document.getElementById("sequencer-master");
+  const rows = master.childNodes;
+  rows.forEach((row, rowIdx) => {
+    row.childNodes.forEach((col, colIdx) => {
+      col.classList.remove('on-beat');
+    })
+  })
+}

@@ -7,7 +7,6 @@ class Metronome {
     this.context = context;
     this.tempo = tempo;
     this.handlePlay = this.handlePlay.bind(this);
-    this.handlePlayWithMetronome = this.handlePlayWithMetronome.bind(this);
     this.schedule = this.schedule.bind(this);
     this.keyHitEventListener = this.keyHitEventListener.bind(this);
     this.stop = this.stop.bind(this);
@@ -25,8 +24,7 @@ class Metronome {
   stop() {
     clearTimeout(this.timeoutId);
     this.recording = false;
-    // playUtil.unHighlightLastBeat(this.beat);
-    // console.log(this.beat);
+    playUtil.clearScene();
   }
 
   playClick(time) {
@@ -58,23 +56,6 @@ class Metronome {
     this.startTime = this.context.currentTime + .005;
     this.schedule();
   }
-
-  handlePlayWithMetronome() {
-    this.beat = 0;
-    this.noteTime = 0.0
-    this.startTime = this.context.currentTime + .005;
-    this.schedule();
-  }
-
-  // handleRecord() {
-  //   this.recording = true;
-  //   this.keyHitEventListener();
-  //   this.beat = 0;
-  //   this.noteTime = 0.0
-  //   this.startTime = this.context.currentTime + .005;
-  //   this.schedule();
-  // }
-
 
   schedule() {
     let currentTime = this.context.currentTime;

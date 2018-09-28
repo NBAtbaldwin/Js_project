@@ -9,14 +9,19 @@ const createScene = () => {
       let colDiv = document.createElement("div");
       colDiv.setAttribute("id", `row-${i}-col-${j}`)
       rowDiv.appendChild(colDiv);
+
+      // click div to create note
       colDiv.addEventListener('click', () => {
         Array.from(colDiv.classList).join('').includes("selected") ? colDiv.classList.remove("selected") : colDiv.classList.add("selected")
       })
+      
+      // drag mousedown over div to create note
       colDiv.addEventListener('mouseover', (e) => {
         if(e.buttons == 1 || e.buttons == 3) {
           Array.from(colDiv.classList).join('').includes("selected") ? colDiv.classList.remove("selected") : colDiv.classList.add("selected")
         }
       })
+
     }
   }
 }
