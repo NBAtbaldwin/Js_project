@@ -28,10 +28,21 @@ class Metronome {
   }
 
   playClick(time) {
-    if (this.beat % 4 === 0) {
+    if (this.beat % 32 === 0) {
       const source = this.context.createBufferSource();
       source.buffer = this.sounds[72];
       source.connect(this.context.destination);
+      source.start(time);
+    } else if (this.beat % 8 === 0) {
+
+      const source = this.context.createBufferSource();
+      source.buffer = this.sounds[72];
+
+      const gainNode = this.context.createGain()
+      gainNode.gain.value = 0.5
+      gainNode.connect(this.context.destination)
+      source.connect(gainNode)
+
       source.start(time);
     }
   }
