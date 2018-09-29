@@ -12,7 +12,7 @@ function init() {
   const soundFactory = new SoundUtil(context);
   soundFactory.generateDrums();
   soundFactory.generateChord(2);
-  soundFactory.generateMono(2);
+  soundFactory.generateMono(1);
 
   soundFactory.keyDownEventListener();
 

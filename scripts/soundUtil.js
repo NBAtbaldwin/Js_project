@@ -2,7 +2,7 @@ class SoundUtil {
 
   constructor(context) {
     this.context = context;
-    this.drumKitSoundNames = [ '808bass2', 'Kick', 'snare', 'clap', 'hat', 'click' ];
+    this.drumKitSoundNames = [ '808bass2', 'Kick', 'snare', 'clap', 'hat', 'click', 'monopoly', 'gucciYeah', 'damn' ];
     this.chordSoundNames = [ 'morphPadGSharpMi', 'EPianoCMa', 'pianoChordE', 'cosmicPadFMi', 'keyboard' ];
     this.monoSoundNames = [ 'msSeq', 'electroFlow', 'analogue']
     this.drumKitBuffers = {};
@@ -12,7 +12,7 @@ class SoundUtil {
     this.generateDrums = this.generateDrums.bind(this);
     this.generateMono = this.generateMono.bind(this);
     this.keyDownEventListener = this.keyDownEventListener.bind(this);
-    this.drumKeyCodes = [65, 83, 68, 70, 71, 72, 74, 75];
+    this.drumKeyCodes = [65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 222, 13];
     this.chordKeyCodes = [81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221];
     this.monoKeyCodes = [49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 189, 187];
   }
