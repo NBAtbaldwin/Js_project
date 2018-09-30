@@ -3,8 +3,8 @@ class SoundUtil {
   constructor(context) {
     this.context = context;
     this.drumKitSoundNames = [ '808bass2', 'Kick', 'snare', 'clap', 'hat', 'click', 'monopoly', 'gucciYeah', 'damn' ];
-    this.chordSoundNames = [ 'morphPadGSharpMi', 'EPianoCMa', 'pianoChordE', 'cosmicPadFMi', 'keyboard' ];
-    this.monoSoundNames = [ 'msSeq', 'electroFlow', 'analogue']
+    this.chordSoundNames = [ 'cloudPad', 'blubberPad', 'emeraldHazePad', 'infinityPad', 'synthPluck' ];
+    this.monoSoundNames = [ 'analogLead', 'currentsLead', 'screamLead']
     this.drumKitBuffers = {};
     this.chordBuffers = {};
     this.monoBuffers = {};
@@ -31,7 +31,7 @@ class SoundUtil {
 
   generateChord(idx) {
     this.chordKeyCodes.forEach((code) => {
-      fetch(`https://raw.githubusercontent.com/NBAtbaldwin/Js_project/master/assets/drum_kit/${this.chordSoundNames[idx]}.wav`)
+      fetch(`https://github.com/NBAtbaldwin/Js_project/blob/master/assets/drum_kit/${this.chordSoundNames[idx]}.wav`)
       .then(response => response.arrayBuffer())
       .then(buffer => {
         this.context.decodeAudioData(buffer, decoded => {
