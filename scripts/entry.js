@@ -25,6 +25,7 @@ function init() {
   let clearNodeList = document.getElementsByClassName('clear');
   let tempoField = document.getElementById('tempo');
   let chordNodeList = document.getElementsByClassName('chord');
+  let monoNodeList = document.getElementsByClassName('mono');
   let tempoSlide = document.getElementById('tempo-slide');
   let metronome = null;
 
@@ -73,6 +74,7 @@ function init() {
       metronome.stop();
       playButton.classList.remove('selected');
       metButton.classList.remove('selected');
+      recordButton.classList.remove('selected');
       metronome = null;
       return;
     }
@@ -107,6 +109,18 @@ function init() {
       soundFactory.generateChord(idx);
       node.classList.add('selected');
       Array.from(chordNodeList).forEach((node2, idx2) => {
+        if (idx !== idx2) {
+          node2.classList.remove('selected');
+        }
+      });
+    });
+  });
+
+  Array.from(monoNodeList).forEach((node, idx) => {
+    node.addEventListener('click', (e) => {
+      soundFactory.generateMono(idx);
+      node.classList.add('selected');
+      Array.from(monoNodeList).forEach((node2, idx2) => {
         if (idx !== idx2) {
           node2.classList.remove('selected');
         }

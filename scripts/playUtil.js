@@ -69,5 +69,5 @@ export const clearScene = (index) => {
 }
 
 export const pitchTransform = (keyIdx) => {
-  return (1 - ((keyIdx/12)*.5))*2;
+  return Math.pow(10, ((keyIdx*100)*(Math.log10(2)/1200)))
 }

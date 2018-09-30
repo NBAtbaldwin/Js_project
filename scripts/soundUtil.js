@@ -31,7 +31,7 @@ class SoundUtil {
 
   generateChord(idx) {
     this.chordKeyCodes.forEach((code) => {
-      fetch(`https://github.com/NBAtbaldwin/Js_project/blob/master/assets/drum_kit/${this.chordSoundNames[idx]}.wav`)
+      fetch(`https://raw.githubusercontent.com/NBAtbaldwin/Js_project/master/assets/drum_kit/${this.chordSoundNames[idx]}.wav`)
       .then(response => response.arrayBuffer())
       .then(buffer => {
         this.context.decodeAudioData(buffer, decoded => {
@@ -86,10 +86,12 @@ class SoundUtil {
     switch (instrument) {
       case "chord":
         idx = this.chordKeyCodes.indexOf(code)
-        return (1 - ((idx/12)*.5))*2;
+        // return (1 + ((idx/12)*.5))*2;
+        return Math.pow(10, ((idx*100)*(Math.log10(2)/1200)))
       case "mono":
         idx = this.monoKeyCodes.indexOf(code);
-        return (1 - ((idx/12)*.5))*2;
+        return Math.pow(10, ((idx*100)*(Math.log10(2)/1200)))
+        // return idx;
     }
   }
 
