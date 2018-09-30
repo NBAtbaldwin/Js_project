@@ -16,7 +16,9 @@ const createScene = (subMaster, num) => {
     let rowDiv = document.createElement("div");
     rowDiv.setAttribute("class", `row-${i}`);
 
-
+    if (i % 4 === 0) {
+      rowDiv.classList.add('quarter');
+    }
 
     subMaster.appendChild(rowDiv);
     for (let j = 11; j >= 0; j--) {

@@ -19,7 +19,7 @@ class SoundUtil {
 
   generateDrums() {
     this.drumKitSoundNames.forEach((soundName, idx) => {
-      fetch('https://raw.githubusercontent.com/NBAtbaldwin/Js_project/master/assets/drum_kit/' + soundName + '.wav')
+      fetch('https://raw.githubusercontent.com/NBAtbaldwin/tinyDAW/master/assets/drum_kit/' + soundName + '.wav')
       .then(response => response.arrayBuffer())
       .then(buffer => {
         this.context.decodeAudioData(buffer, decoded => {
@@ -31,7 +31,7 @@ class SoundUtil {
 
   generateChord(idx) {
     this.chordKeyCodes.forEach((code) => {
-      fetch(`https://raw.githubusercontent.com/NBAtbaldwin/Js_project/master/assets/drum_kit/${this.chordSoundNames[idx]}.wav`)
+      fetch(`https://raw.githubusercontent.com/NBAtbaldwin/tinyDAW/master/assets/drum_kit/${this.chordSoundNames[idx]}.wav`)
       .then(response => response.arrayBuffer())
       .then(buffer => {
         this.context.decodeAudioData(buffer, decoded => {
@@ -43,7 +43,7 @@ class SoundUtil {
 
   generateMono(idx) {
     this.monoKeyCodes.forEach((code) => {
-      fetch(`https://raw.githubusercontent.com/NBAtbaldwin/Js_project/master/assets/drum_kit/${this.monoSoundNames[idx]}.wav`)
+      fetch(`https://raw.githubusercontent.com/NBAtbaldwin/tinyDAW/master/assets/drum_kit/${this.monoSoundNames[idx]}.wav`)
       .then(response => response.arrayBuffer())
       .then(buffer => {
         this.context.decodeAudioData(buffer, decoded => {
