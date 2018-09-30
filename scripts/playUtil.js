@@ -38,7 +38,7 @@ export const unHighlightBeat = (beat) => {
   });
 }
 
-export const clearScene = () => {
+export const clearAllScenes = () => {
   const master = document.getElementById("sequence-master");
   let sequences = master.childNodes;
   sequences = Array.from(sequences);
@@ -51,6 +51,20 @@ export const clearScene = () => {
         node.classList.remove('on-beat');
       })
     });
+  });
+}
+
+export const clearScene = (index) => {
+  const master = document.getElementById("sequence-master");
+  let sequences = master.childNodes;
+  let sequence = Array.from(sequences)[index+1];
+  let rows = sequence.childNodes;
+  rows = Array.from(rows);
+  rows.forEach((row, idx) => {
+    let colArr = Array.from(row.childNodes);
+    colArr.forEach((node, idx) => {
+      node.classList.remove('selected');
+    })
   });
 }
 

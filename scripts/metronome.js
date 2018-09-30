@@ -24,7 +24,7 @@ class Metronome {
   stop() {
     clearTimeout(this.timeoutId);
     this.recording = false;
-    playUtil.clearScene();
+    playUtil.clearAllScenes();
   }
 
   playClick(time) {
@@ -111,9 +111,9 @@ class Metronome {
   }
 
   tempoEventListener() {
-    let tempoField = document.getElementById('tempo');
+    let tempoSlide = document.getElementById('tempo-slide');
 
-    tempoField.addEventListener('change', (e) => {
+    tempoSlide.addEventListener('change', (e) => {
       this.tempo = e.target.value;
     })
   }
@@ -123,10 +123,8 @@ class Metronome {
       if (this.recording === false){
         return;
       }
-      console.log(this.keyCodes.drums);
       let code = e.keyCode;
       let id = recordingUtil.matchKeyStrokeToDivId(code, this.keyCodes, this.beat);
-      console.log(id)
       const selectedDiv = document.getElementById(id);
       selectedDiv.classList.add('selected');
     });

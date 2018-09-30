@@ -4,44 +4,122 @@
     <meta charset="utf-8">
     <script type="application/javascript" src="scripts/bundle.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Iceland" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="styles/global-controls.css"/>
     <link rel="stylesheet" type="text/css" href="styles/util.css"/>
     <link rel="stylesheet" type="text/css" href="styles/main.css"/>
     <title></title>
   </head>
   <body>
     <section class="pads">
-      <!-- <div class="pad-container">
-        <div data-key="65" class="pad">snare
+      <div class="scene-labels">
+        <div>
+          <p>1</p>
         </div>
-        <div data-key="84" class="pad">kick
+        <div>
+          <p>2</p>
         </div>
-      </div> -->
-      <div class="buttons">
-        <button type="button" id="metronome">metronome</button>
-        <button type="button" id="up-tempo">+</button>
-        <input type="number" id="tempo"
-           placeholder="Min: 40, max: 200"
-           min="40" max="200" value="120"/>
-        <button type="button" id="down-tempo">-</button>
-        <button type="button" id="play">Play / Pause</button>
-        <button type="button" id="clear">Clear</button>
-
-        <button type="button" id="record">record</button>
-      </div>
-      <div class="audio-controls">
-        <button type="button" class="chord" id="chord-0">Morph Pad</button>
-        <button type="button" class="chord" id="chord-1">E-Piano 1</button>
-        <button type="button" class="chord" id="chord-2">E-Piano 2</button>
-        <button type="button" class="chord" id="chord-3">Cosmic Pad</button>
-        <button type="button" class="chord" id="chord-4">Keyboard</button>
+        <div>
+          <p>3</p>
+        </div>
       </div>
       <div>
-        <div id="sequence-master">
+        <div class="global-controls">
+          <button type="button" id="metronome">
+            <i class="far fa-circle"></i>
+            <i class="fas fa-circle"></i>
+          </button>
+          <input type="number" id="tempo"
+             placeholder="Min: 40, max: 200"
+             min="40" max="200" value="120"/>
+          <input type="range" min="40" max="200" value="120" id="tempo-slide">
 
+          <button type="button" id="play">
+            <i class="fas fa-play"></i>
+            <i class="fas fa-pause"></i>
+          </button>
+
+          <button type="button" id="record">
+            <i class="far fa-dot-circle"></i>
+            <i class="fas fa-dot-circle hidden"></i>
+          </button>
+        </div>
+        <div>
+          <div class="sound-labels">
+            <ul>
+              <li>808 kick</li>
+              <li>kick</li>
+              <li>snare</li>
+              <li>clap</li>
+              <li>hat</li>
+              <li>tick</li>
+              <li>yeah</li>
+              <li>place</li>
+              <li>place</li>
+              <li>place</li>
+              <li>place</li>
+              <li>place</li>
+            </ul>
+            <ul>
+              <li>+11</li>
+              <li>+10</li>
+              <li>+9</li>
+              <li>+8</li>
+              <li>+7</li>
+              <li>+6</li>
+              <li>+5</li>
+              <li>+4</li>
+              <li>+3</li>
+              <li>+2</li>
+              <li>+1</li>
+              <li>+0</li>
+            </ul>
+            <ul>
+              <li>+11</li>
+              <li>+10</li>
+              <li>+9</li>
+              <li>+8</li>
+              <li>+7</li>
+              <li>+6</li>
+              <li>+5</li>
+              <li>+4</li>
+              <li>+3</li>
+              <li>+2</li>
+              <li>+1</li>
+              <li>+0</li>
+            </ul>
+          </div>
+          <div id="sequence-master">
+
+          </div>
+        </div>
+      </div>
+      <div class="sample-container">
+        <div class="samples-placeholder">
+          <button type="button" class="clear" id="clear-1">clear scene 1</button>
+          <button type="button" class="clear" id="clear-2">clear scene 2</button>
+          <button type="button" class="clear" id="clear-3">clear scene 3</button>
+        </div>
+        <div class="samples-chord">
+          <div class="">
+            <button type="button" class="chord" id="chord-0">Morph Pad</button>
+            <button type="button" class="chord" id="chord-1">E-Piano 1</button>
+            <button type="button" class="chord" id="chord-2">E-Piano 2</button>
+            <button type="button" class="chord" id="chord-3">Cosmic Pad</button>
+            <button type="button" class="chord" id="chord-4">Keyboard</button>
+          </div>
+          <p>2</p>
+        </div>
+        <div class="samples-mono">
+          <div>
+            <button type="button" class="chord" id="mono-0">Placeholder1</button>
+            <button type="button" class="mono" id="mono-1">Placeholder2</button>
+            <button type="button" class="mono" id="mono-2">Placeholder3</button>
+          </div>
+          <p>3</p>
         </div>
       </div>
     </section>
-    <audio preload="auto" data-key="65" src="assets/drum_kit/snare.wav"></audio>
-    <audio preload="auto" data-key="83" src="assets/drum_kit/kick.wav"></audio>
   </body>
 </html>
