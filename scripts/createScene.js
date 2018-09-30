@@ -15,9 +15,11 @@ const createScene = (subMaster, num) => {
   for (let i = 0; i < 32; i++) {
     let rowDiv = document.createElement("div");
     rowDiv.setAttribute("class", `row-${i}`);
-    // rowDiv.setAttribute("class", `sequencer-${num}`);
+
+
+
     subMaster.appendChild(rowDiv);
-    for (let j = 0; j < 12; j++) {
+    for (let j = 11; j >= 0; j--) {
       let colDiv = document.createElement("div");
       colDiv.setAttribute("id", `row-${i}-col-${j+(num*12)}`);
       // colDiv.setAttribute("class", `sequencer-${num}`)

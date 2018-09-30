@@ -2,6 +2,8 @@ import Metronome from './metronome';
 import * as SceneUtil from './createScene';
 import SoundUtil from './soundUtil';
 import * as PlayUtil from './playUtil';
+import * as PadsUtil from './createPads';
+
 
 let context;
 let audioBufferSourceNode;
@@ -18,15 +20,17 @@ function init() {
   soundFactory.keyDownEventListener();
 
   SceneUtil.createScenes();
+  PadsUtil.createPads();
 
-  let playButton = document.getElementById('play');
-  let metButton = document.getElementById('metronome');
-  let recordButton = document.getElementById('record');
-  let clearNodeList = document.getElementsByClassName('clear');
-  let tempoField = document.getElementById('tempo');
-  let chordNodeList = document.getElementsByClassName('chord');
-  let monoNodeList = document.getElementsByClassName('mono');
-  let tempoSlide = document.getElementById('tempo-slide');
+  const playButton = document.getElementById('play');
+  const metButton = document.getElementById('metronome');
+  const recordButton = document.getElementById('record');
+  const clearNodeList = document.getElementsByClassName('clear');
+  const tempoField = document.getElementById('tempo');
+  const chordNodeList = document.getElementsByClassName('chord');
+  const monoNodeList = document.getElementsByClassName('mono');
+  const tempoSlide = document.getElementById('tempo-slide');
+  const pads = document.querySelectorAll('.pad');
   let metronome = null;
 
   metButton.addEventListener('click', (e) => {
@@ -132,6 +136,17 @@ function init() {
     node.addEventListener('click', (e) => {
       PlayUtil.clearScene(idx);
     });
+  })
+
+  window.addEventListener('keydown', (e) => {
+    let targetKey = document.querySelector(`div[data-key="${e.keyCode}"]`);
+    targetKey.classList.add('play');
+  });
+
+  pads.forEach((pad) => {
+    pad.addEventListener('transitionend', () => {
+      pad.classList.remove('play')
+    })
   })
 
 }

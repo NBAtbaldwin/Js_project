@@ -3,7 +3,7 @@ export const getSoundIdx = (beat) => {
   let rows = document.getElementsByClassName(`row-${beat}`);
   rows = Array.from(rows);
   rows.forEach((row, idx1) => {
-    let colArr = Array.from(row.childNodes);
+    let colArr = Array.from(row.childNodes).reverse();
     colArr.forEach((node, idx2) => {
       if (Array.from(node.classList).join('').includes("selected")) {
         drumSoundIdxList.push(idx2 + idx1*12);

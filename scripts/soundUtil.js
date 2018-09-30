@@ -2,7 +2,7 @@ class SoundUtil {
 
   constructor(context) {
     this.context = context;
-    this.drumKitSoundNames = [ '808bass2', 'Kick', 'snare', 'clap', 'hat', 'click', 'monopoly', 'gucciYeah', 'damn' ];
+    this.drumKitSoundNames = [ '808bass2', '808high', 'Kick', 'snare', 'shortSnare', 'clap', 'strongClap', 'hiHat', 'shortRide', 'crash', 'click', 'gucciYeah', ];
     this.chordSoundNames = [ 'cloudPad', 'blubberPad', 'emeraldHazePad', 'infinityPad', 'synthPluck' ];
     this.monoSoundNames = [ 'analogLead', 'currentsLead', 'screamLead']
     this.drumKitBuffers = {};
