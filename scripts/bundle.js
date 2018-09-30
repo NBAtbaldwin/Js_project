@@ -187,6 +187,38 @@ const createScene = (subMaster, num) => {
 
 /***/ }),
 
+/***/ "./scripts/demo.js":
+/*!*************************!*\
+  !*** ./scripts/demo.js ***!
+  \*************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const littleDitty = ["row-0-col-7", "row-0-col-2", "row-0-col-1", "row-1-col-7", "row-2-col-7", "row-3-col-7", "row-4-col-7", "row-4-col-4", "row-5-col-7", "row-6-col-7", "row-6-col-2", "row-7-col-7", "row-8-col-8", "row-8-col-7", "row-9-col-7", "row-10-col-7", "row-10-col-2", "row-10-col-1", "row-11-col-7", "row-12-col-7", "row-12-col-4", "row-13-col-7", "row-13-col-2", "row-14-col-7", "row-15-col-7", "row-16-col-7", "row-16-col-2", "row-16-col-0", "row-17-col-7", "row-18-col-7", "row-19-col-7", "row-20-col-7", "row-20-col-4", "row-21-col-7", "row-22-col-7", "row-22-col-2", "row-22-col-0", "row-23-col-8", "row-23-col-7", "row-24-col-7", "row-25-col-7", "row-26-col-7", "row-26-col-2", "row-27-col-7", "row-28-col-7", "row-28-col-4", "row-29-col-7", "row-29-col-4", "row-30-col-7", "row-30-col-2", "row-31-col-7", "row-0-col-12", "row-6-col-15", "row-16-col-14", "row-22-col-17", "row-0-col-24", "row-2-col-26", "row-4-col-27", "row-6-col-29", "row-7-col-31", "row-8-col-34", "row-10-col-31", "row-11-col-32", "row-12-col-29", "row-13-col-31", "row-14-col-27"];
+
+const runDemo = (metronome, context) => {
+  littleDitty.forEach( id => {
+    let div = document.getElementById(id);
+    div.classList.add('selected');
+  });
+  document.getElementById('chord-0').classList.add('selected');
+  document.getElementById('mono-0').classList.add('selected');
+  document.getElementById('tempo').value = "47";
+  metronome.tempo = 47;
+  metronome.tempoEventListener();
+  metronome.handlePlay();
+  metronome.playing = true;
+  document.getElementById('play').classList.add('selected')
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (runDemo);
+
+
+/***/ }),
+
 /***/ "./scripts/entry.js":
 /*!**************************!*\
   !*** ./scripts/entry.js ***!
@@ -201,6 +233,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _soundUtil__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./soundUtil */ "./scripts/soundUtil.js");
 /* harmony import */ var _playUtil__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./playUtil */ "./scripts/playUtil.js");
 /* harmony import */ var _createPads__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./createPads */ "./scripts/createPads.js");
+/* harmony import */ var _demo__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./demo */ "./scripts/demo.js");
+
 
 
 
@@ -350,6 +384,14 @@ function init() {
     pad.addEventListener('transitionend', () => {
       pad.classList.remove('play')
     })
+  });
+
+  document.getElementById('demo').addEventListener('click', () => {
+    _playUtil__WEBPACK_IMPORTED_MODULE_3__["clearAllScenes"]();
+    metronome = new _metronome__WEBPACK_IMPORTED_MODULE_0__["default"](soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
+    soundFactory.generateChord(0);
+    soundFactory.generateMono(0);
+    Object(_demo__WEBPACK_IMPORTED_MODULE_5__["default"])(metronome, context);
   })
 
 }
@@ -377,7 +419,7 @@ class Metronome {
     this.context = context;
     this.tempo = tempo;
     this.handlePlay = this.handlePlay.bind(this);
-    this.schedule = this.schedule.bind(this);
+    this.planNotes = this.planNotes.bind(this);
     this.keyHitEventListener = this.keyHitEventListener.bind(this);
     this.stop = this.stop.bind(this);
     this.button = document.getElementById('metronome')
@@ -453,10 +495,10 @@ class Metronome {
     this.beat = 0;
     this.noteTime = 0.0
     this.startTime = this.context.currentTime + .005;
-    this.schedule();
+    this.planNotes();
   }
 
-  schedule() {
+  planNotes() {
     let currentTime = this.context.currentTime;
     currentTime -= this.startTime;
     while (this.noteTime < currentTime + .05) {
@@ -468,13 +510,13 @@ class Metronome {
             this.playClick(contextPlayTime);
             this.animateMetronomeButton();
           }
-      this.advanceNote();
+      this.getNextNoteTime();
     }
 
-    this.timeoutId = setTimeout(this.schedule, 0);
+    this.timeoutId = setTimeout(this.planNotes, 0);
   }
 
-  advanceNote() {
+  getNextNoteTime() {
     let secsPerBeat = 60.0/this.tempo;
     this.noteTime += .125 * secsPerBeat;
 

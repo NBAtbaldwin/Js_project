@@ -3,6 +3,7 @@ import * as SceneUtil from './createScene';
 import SoundUtil from './soundUtil';
 import * as PlayUtil from './playUtil';
 import * as PadsUtil from './createPads';
+import RunDemo from './demo';
 
 
 let context;
@@ -147,6 +148,14 @@ function init() {
     pad.addEventListener('transitionend', () => {
       pad.classList.remove('play')
     })
+  });
+
+  document.getElementById('demo').addEventListener('click', () => {
+    PlayUtil.clearAllScenes();
+    metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
+    soundFactory.generateChord(0);
+    soundFactory.generateMono(0);
+    RunDemo(metronome, context);
   })
 
 }

@@ -7,7 +7,7 @@ class Metronome {
     this.context = context;
     this.tempo = tempo;
     this.handlePlay = this.handlePlay.bind(this);
-    this.schedule = this.schedule.bind(this);
+    this.planNotes = this.planNotes.bind(this);
     this.keyHitEventListener = this.keyHitEventListener.bind(this);
     this.stop = this.stop.bind(this);
     this.button = document.getElementById('metronome')
@@ -83,10 +83,10 @@ class Metronome {
     this.beat = 0;
     this.noteTime = 0.0
     this.startTime = this.context.currentTime + .005;
-    this.schedule();
+    this.planNotes();
   }
 
-  schedule() {
+  planNotes() {
     let currentTime = this.context.currentTime;
     currentTime -= this.startTime;
     while (this.noteTime < currentTime + .05) {
@@ -98,13 +98,13 @@ class Metronome {
             this.playClick(contextPlayTime);
             this.animateMetronomeButton();
           }
-      this.advanceNote();
+      this.getNextNoteTime();
     }
 
-    this.timeoutId = setTimeout(this.schedule, 0);
+    this.timeoutId = setTimeout(this.planNotes, 0);
   }
 
-  advanceNote() {
+  getNextNoteTime() {
     let secsPerBeat = 60.0/this.tempo;
     this.noteTime += .125 * secsPerBeat;
 
