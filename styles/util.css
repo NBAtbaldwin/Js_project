@@ -68,7 +68,7 @@ section {
 
 .sample-container {
   margin-left: -26px;
-  margin-top: -28px;
+  margin-top: -30px;
   padding: 10px;
   background-color: #170d71;
   border: 10px solid black;
@@ -152,6 +152,18 @@ section {
   width: 100px;
 }
 
+[class^='samples-'] > button:hover, [class^='samples-'] > div > button:hover {
+  color: #b8e4f8;
+  background-color: black;
+}
+
+[class^='samples-'] > .selected, [class^='samples-'] > div > .selected {
+  color: #b8e4f8;
+  background-color: black;
+  border: 2px solid #b8e4f8;
+}
+
+
 section > div {
   height: 620px;
   display: flex;
@@ -215,10 +227,13 @@ section > div:nth-child(2) {
   margin: 6px;
   border-radius: 3px;
   color: yellow;
+  font-size: 11px;
 }
 
-button > i {
-  font-size: 11px;
+.global-controls > button:hover {
+  background-color: yellow;
+  color: #170d71;
+
 }
 
 .hidden {
@@ -227,9 +242,6 @@ button > i {
 
 .global-controls > .selected {
   background-color: yellow;
-}
-
-.selected > i {
   color: #170d71;
   font-weight: bold;
 }

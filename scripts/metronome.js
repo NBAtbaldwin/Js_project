@@ -91,11 +91,12 @@ class Metronome {
     currentTime -= this.startTime;
     while (this.noteTime < currentTime + .05) {
       let contextPlayTime = this.noteTime + this.startTime;
-      playUtil.hightlightBeat(this.beat);
+      playUtil.highlightBeat(this.beat);
       playUtil.unHighlightBeat(this.beat);
       this.playSound(contextPlayTime);
           if (this.metronomePlaying) {
             this.playClick(contextPlayTime);
+            this.animateMetronomeButton();
           }
       this.advanceNote();
     }
@@ -128,6 +129,24 @@ class Metronome {
       const selectedDiv = document.getElementById(id);
       selectedDiv.classList.add('selected');
     });
+  }
+
+  animateMetronomeButton() {
+    if (!Array.from(this.button.classList).join('').includes("selected")) {
+      return;
+    }
+    if (this.beat % 16 === 0) {
+      this.button.childNodes[1].classList.remove("far");
+      this.button.childNodes[1].classList.add("fas");
+      this.button.childNodes[3].classList.remove("fas");
+      this.button.childNodes[3].classList.add("far");
+    } else if (this.beat % 8 === 0) {
+      this.button.childNodes[1].classList.remove("fas");
+      this.button.childNodes[1].classList.add("far");
+      this.button.childNodes[3].classList.remove("far");
+      this.button.childNodes[3].classList.add("fas");
+    }
+
   }
 
 }

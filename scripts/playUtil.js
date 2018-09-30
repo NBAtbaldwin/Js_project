@@ -14,7 +14,7 @@ export const getSoundIdx = (beat) => {
   return drumSoundIdxList;
 }
 
-export const hightlightBeat = (beat) => {
+export const highlightBeat = (beat) => {
   let rows = document.getElementsByClassName(`row-${beat}`);
   rows = Array.from(rows);
   rows.forEach((row, idx) => {

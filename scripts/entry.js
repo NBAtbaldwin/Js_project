@@ -33,9 +33,11 @@ function init() {
       return;
     } else if(metronome.metronomePlaying === true) {
       metronome.metronomePlaying = false;
+      metButton.classList.remove('selected');
       return;
     }
     metronome.metronomePlaying = true;
+    metButton.classList.add('selected');
   });
 
   playButton.addEventListener('click', (e) => {
@@ -49,6 +51,7 @@ function init() {
       metronome.metronomePlaying = false;
       metronome.stop();
       metronome = null;
+      metButton.classList.remove('selected');
       playButton.classList.remove('selected');
       recordButton.classList.remove('selected');
       return;
@@ -64,9 +67,12 @@ function init() {
       metronome.tempoEventListener();
       metronome.handlePlay();
       metronome.playing = true;
+      playButton.classList.add('selected');
     } else if(metronome.playing === true) {
       metronome.metronomePlaying = false;
       metronome.stop();
+      playButton.classList.remove('selected');
+      metButton.classList.remove('selected');
       metronome = null;
       return;
     }
@@ -98,8 +104,14 @@ function init() {
 
   Array.from(chordNodeList).forEach((node, idx) => {
     node.addEventListener('click', (e) => {
-      soundFactory.generateChord(idx)
-    })
+      soundFactory.generateChord(idx);
+      node.classList.add('selected');
+      Array.from(chordNodeList).forEach((node2, idx2) => {
+        if (idx !== idx2) {
+          node2.classList.remove('selected');
+        }
+      });
+    });
   });
 
   Array.from(clearNodeList).forEach((node, idx) => {
