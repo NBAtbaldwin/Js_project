@@ -31,6 +31,7 @@ class Metronome {
     if (this.beat % 16 === 0) {
       const source = this.context.createBufferSource();
       source.buffer = this.sounds.drums[222];
+      source.playbackRate.value = 1.2;
       source.connect(this.context.destination);
       source.start(time);
     } else if (this.beat % 4 === 0) {
@@ -39,7 +40,7 @@ class Metronome {
       source.buffer = this.sounds.drums[222];
 
       const gainNode = this.context.createGain()
-      gainNode.gain.value = 0.6
+      gainNode.gain.value = 0.7;
       gainNode.connect(this.context.destination)
       source.connect(gainNode)
 

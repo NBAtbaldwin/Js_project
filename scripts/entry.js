@@ -151,6 +151,13 @@ function init() {
   });
 
   document.getElementById('demo').addEventListener('click', () => {
+    if (metronome) {
+      metronome.stop();
+      metronome = null;
+    }
+    metButton.classList.remove('selected');
+    playButton.classList.remove('selected');
+    recordButton.classList.remove('selected');
     PlayUtil.clearAllScenes();
     metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
     soundFactory.generateChord(0);
