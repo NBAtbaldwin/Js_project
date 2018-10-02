@@ -179,6 +179,33 @@ section > div {
 
 section > div:nth-child(2) {
   width: 720px;
+  position: relative;
+}
+
+.icon-links {
+  position: absolute;
+  top: 23px;
+  left: -8px;
+  width: 120px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: inherit;
+  color: yellow;
+  font-size: 16px;
+}
+
+.icon-links > .fab {
+  color: yellow;
+}
+
+.icon-links > a {
+  color: yellow;
+  text-decoration: none;
+}
+
+.icon-links > a:hover {
+  transform: scale(1.2);
 }
 
 .global-controls {
