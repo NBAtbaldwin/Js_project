@@ -206,6 +206,7 @@ const runDemo = (metronome, context) => {
   document.getElementById('chord-0').classList.add('selected');
   document.getElementById('mono-0').classList.add('selected');
   document.getElementById('tempo').value = "47";
+  document.getElementById('tempo-slide').value = "47";
   metronome.tempo = 47;
   metronome.tempoEventListener();
   metronome.handlePlay();
@@ -244,6 +245,7 @@ __webpack_require__.r(__webpack_exports__);
 
 let context;
 let audioBufferSourceNode;
+const keySet = new Set([65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 222, 13, 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 189, 187]);
 
 window.addEventListener('load', init, false);
 function init() {
@@ -376,8 +378,10 @@ function init() {
   })
 
   window.addEventListener('keydown', (e) => {
-    let targetKey = document.querySelector(`div[data-key="${e.keyCode}"]`);
-    targetKey.classList.add('play');
+    if (keySet.has(parseInt(e.keyCode))) {
+      let targetKey = document.querySelector(`div[data-key="${e.keyCode}"]`);
+      targetKey.classList.add('play');
+    }
   });
 
   pads.forEach((pad) => {
@@ -514,10 +518,10 @@ class Metronome {
       _playUtil__WEBPACK_IMPORTED_MODULE_0__["highlightBeat"](this.beat);
       _playUtil__WEBPACK_IMPORTED_MODULE_0__["unHighlightBeat"](this.beat);
       this.playSound(contextPlayTime);
-          if (this.metronomePlaying) {
-            this.playClick(contextPlayTime);
-            this.animateMetronomeButton();
-          }
+      if (this.metronomePlaying) {
+        this.playClick(contextPlayTime);
+        this.animateMetronomeButton();
+      }
       this.getNextNoteTime();
     }
 

@@ -95,10 +95,10 @@ class Metronome {
       playUtil.highlightBeat(this.beat);
       playUtil.unHighlightBeat(this.beat);
       this.playSound(contextPlayTime);
-          if (this.metronomePlaying) {
-            this.playClick(contextPlayTime);
-            this.animateMetronomeButton();
-          }
+      if (this.metronomePlaying) {
+        this.playClick(contextPlayTime);
+        this.animateMetronomeButton();
+      }
       this.getNextNoteTime();
     }
 

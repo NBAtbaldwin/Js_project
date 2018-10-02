@@ -8,6 +8,7 @@ const runDemo = (metronome, context) => {
   document.getElementById('chord-0').classList.add('selected');
   document.getElementById('mono-0').classList.add('selected');
   document.getElementById('tempo').value = "47";
+  document.getElementById('tempo-slide').value = "47";
   metronome.tempo = 47;
   metronome.tempoEventListener();
   metronome.handlePlay();
