@@ -10,7 +10,6 @@ export const getSoundIdx = (beat) => {
       }
     })
   });
-  // console.log(drumSoundIdxList);
   return drumSoundIdxList;
 }
 

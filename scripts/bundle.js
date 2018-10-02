@@ -427,6 +427,7 @@ __webpack_require__.r(__webpack_exports__);
 class Metronome {
   constructor(drumKitArray, chordArray, monoArray, context, tempo, drumKeyCodes, chordKeyCodes, monoKeyCodes) {
     this.sounds = {drums: drumKitArray, chords: chordArray, mono: monoArray}
+    this.validKeySet = new Set([65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 222, 13, 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 189, 187]);
     this.context = context;
     this.tempo = tempo;
     this.handlePlay = this.handlePlay.bind(this);
@@ -484,7 +485,6 @@ class Metronome {
         source.connect(this.context.destination);
         source.start(time);
       } else if (keyIdx > 11 && keyIdx < 24) {
-        console.log(this.keyCodes.chords);
         let soundIdx = this.keyCodes.chords[keyIdx-12];
         let source = this.context.createBufferSource();
         source.buffer = this.sounds.chords[soundIdx];
@@ -492,7 +492,6 @@ class Metronome {
         source.connect(this.context.destination);
         source.start(time);
       } else if (keyIdx > 23 && keyIdx < 36) {
-        console.log(this.keyCodes.chords);
         let soundIdx = this.keyCodes.mono[keyIdx-24];
         let source = this.context.createBufferSource();
         source.buffer = this.sounds.mono[soundIdx];
@@ -548,10 +547,12 @@ class Metronome {
       if (this.recording === false){
         return;
       }
-      let code = e.keyCode;
-      let id = _recordingUtil__WEBPACK_IMPORTED_MODULE_1__["matchKeyStrokeToDivId"](code, this.keyCodes, this.beat);
-      const selectedDiv = document.getElementById(id);
-      selectedDiv.classList.add('selected');
+      if (this.validKeySet.has(e.keyCode)) {
+        let code = e.keyCode;
+        let id = _recordingUtil__WEBPACK_IMPORTED_MODULE_1__["matchKeyStrokeToDivId"](code, this.keyCodes, this.beat);
+        const selectedDiv = document.getElementById(id);
+        selectedDiv.classList.add('selected');      
+      }
     });
   }
 
@@ -607,7 +608,6 @@ const getSoundIdx = (beat) => {
       }
     })
   });
-  // console.log(drumSoundIdxList);
   return drumSoundIdxList;
 }
 
@@ -683,7 +683,6 @@ const pitchTransform = (keyIdx) => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "matchKeyStrokeToDivId", function() { return matchKeyStrokeToDivId; });
 const matchKeyStrokeToDivId = (keyCode, keyCodeObj, beat) => {
-  // console.log(keyCodeArray);
   let row = beat;
   row === 0 ? row = 31 : row = row - 1;
 

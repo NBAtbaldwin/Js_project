@@ -1,5 +1,4 @@
 export const matchKeyStrokeToDivId = (keyCode, keyCodeObj, beat) => {
-  // console.log(keyCodeArray);
   let row = beat;
   row === 0 ? row = 31 : row = row - 1;
 
