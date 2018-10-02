@@ -205,6 +205,10 @@ section > div:nth-child(2) {
   text-decoration: none;
 }
 
+.icon-links > a > p {
+  margin-top: 20px;
+}
+
 .icon-links > a:hover {
   transform: scale(1.2);
 }
