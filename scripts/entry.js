@@ -158,7 +158,7 @@ function init() {
     metButton.classList.remove('selected');
     playButton.classList.remove('selected');
     recordButton.classList.remove('selected');
-    PlayUtil.clearAllScenes();
+    PlayUtil.clearAllScenes('selected');
     metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
     soundFactory.generateChord(0);
     soundFactory.generateMono(0);

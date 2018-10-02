@@ -38,7 +38,7 @@ export const unHighlightBeat = (beat) => {
   });
 }
 
-export const clearAllScenes = () => {
+export const clearAllScenes = (className) => {
   const master = document.getElementById("sequence-master");
   let sequences = master.childNodes;
   sequences = Array.from(sequences);
@@ -48,7 +48,7 @@ export const clearAllScenes = () => {
     rows.forEach((row, idx) => {
       let colArr = Array.from(row.childNodes);
       colArr.forEach((node, idx) => {
-        node.classList.remove('on-beat');
+        node.classList.remove(className);
       })
     });
   });

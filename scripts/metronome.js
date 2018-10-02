@@ -24,7 +24,7 @@ class Metronome {
   stop() {
     clearTimeout(this.timeoutId);
     this.recording = false;
-    playUtil.clearAllScenes();
+    playUtil.clearAllScenes('on-beat');
   }
 
   playClick(time) {

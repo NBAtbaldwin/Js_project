@@ -394,7 +394,7 @@ function init() {
     metButton.classList.remove('selected');
     playButton.classList.remove('selected');
     recordButton.classList.remove('selected');
-    _playUtil__WEBPACK_IMPORTED_MODULE_3__["clearAllScenes"]();
+    _playUtil__WEBPACK_IMPORTED_MODULE_3__["clearAllScenes"]('selected');
     metronome = new _metronome__WEBPACK_IMPORTED_MODULE_0__["default"](soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
     soundFactory.generateChord(0);
     soundFactory.generateMono(0);
@@ -443,7 +443,7 @@ class Metronome {
   stop() {
     clearTimeout(this.timeoutId);
     this.recording = false;
-    _playUtil__WEBPACK_IMPORTED_MODULE_0__["clearAllScenes"]();
+    _playUtil__WEBPACK_IMPORTED_MODULE_0__["clearAllScenes"]('on-beat');
   }
 
   playClick(time) {
@@ -631,7 +631,7 @@ const unHighlightBeat = (beat) => {
   });
 }
 
-const clearAllScenes = () => {
+const clearAllScenes = (className) => {
   const master = document.getElementById("sequence-master");
   let sequences = master.childNodes;
   sequences = Array.from(sequences);
@@ -641,7 +641,7 @@ const clearAllScenes = () => {
     rows.forEach((row, idx) => {
       let colArr = Array.from(row.childNodes);
       colArr.forEach((node, idx) => {
-        node.classList.remove('on-beat');
+        node.classList.remove(className);
       })
     });
   });
