@@ -73,7 +73,10 @@ class Metronome {
         let source = this.context.createBufferSource();
         source.buffer = this.sounds.mono[soundIdx];
         source.playbackRate.value = playUtil.pitchTransform(keyIdx-24);
-        source.connect(this.context.destination);
+        const gainNode = this.context.createGain()
+        gainNode.gain.value = 0.5;
+        gainNode.connect(this.context.destination)
+        source.connect(gainNode)
         source.start(time);
       }
     });
@@ -128,7 +131,7 @@ class Metronome {
         let code = e.keyCode;
         let id = recordingUtil.matchKeyStrokeToDivId(code, this.keyCodes, this.beat);
         const selectedDiv = document.getElementById(id);
-        selectedDiv.classList.add('selected');      
+        selectedDiv.classList.add('selected');
       }
     });
   }

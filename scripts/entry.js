@@ -4,6 +4,7 @@ import SoundUtil from './soundUtil';
 import * as PlayUtil from './playUtil';
 import * as PadsUtil from './createPads';
 import RunDemo from './demo';
+import Randomizer from './randomizer';
 
 
 let context;
@@ -153,6 +154,21 @@ function init() {
     })
   });
 
+  // document.getElementById('demo').addEventListener('click', () => {
+  //   if (metronome) {
+  //     metronome.stop();
+  //     metronome = null;
+  //   }
+  //   metButton.classList.remove('selected');
+  //   playButton.classList.remove('selected');
+  //   recordButton.classList.remove('selected');
+  //   PlayUtil.clearAllScenes('selected');
+  //   metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
+  //   soundFactory.generateChord(0);
+  //   soundFactory.generateMono(0);
+  //   RunDemo(metronome, context);
+  // })
+
   document.getElementById('demo').addEventListener('click', () => {
     if (metronome) {
       metronome.stop();
@@ -163,9 +179,10 @@ function init() {
     recordButton.classList.remove('selected');
     PlayUtil.clearAllScenes('selected');
     metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
-    soundFactory.generateChord(0);
-    soundFactory.generateMono(0);
-    RunDemo(metronome, context);
+    // soundFactory.generateChord(0);
+    // soundFactory.generateMono(0);
+    let randomizer = new Randomizer(metronome, soundFactory, context);
+    randomizer.playBeat();
   })
 
 }
