@@ -74,7 +74,7 @@ class Metronome {
         source.buffer = this.sounds.mono[soundIdx];
         source.playbackRate.value = playUtil.pitchTransform(keyIdx-24);
         const gainNode = this.context.createGain()
-        gainNode.gain.value = 0.5;
+        gainNode.gain.value = 0.6;
         gainNode.connect(this.context.destination)
         source.connect(gainNode)
         source.start(time);

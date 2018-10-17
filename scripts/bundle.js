@@ -236,6 +236,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _createPads__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./createPads */ "./scripts/createPads.js");
 /* harmony import */ var _demo__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./demo */ "./scripts/demo.js");
 /* harmony import */ var _randomizer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./randomizer */ "./scripts/randomizer.js");
+/* harmony import */ var _tutorial__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./tutorial */ "./scripts/tutorial.js");
+
 
 
 
@@ -262,6 +264,8 @@ function init() {
 
   _createScene__WEBPACK_IMPORTED_MODULE_1__["createScenes"]();
   _createPads__WEBPACK_IMPORTED_MODULE_4__["createPads"]();
+  const tutorial = new _tutorial__WEBPACK_IMPORTED_MODULE_7__["default"]();
+  tutorial.initialize();
 
   const playButton = document.getElementById('play');
   const metButton = document.getElementById('metronome');
@@ -515,7 +519,7 @@ class Metronome {
         source.buffer = this.sounds.mono[soundIdx];
         source.playbackRate.value = _playUtil__WEBPACK_IMPORTED_MODULE_0__["pitchTransform"](keyIdx-24);
         const gainNode = this.context.createGain()
-        gainNode.gain.value = 0.5;
+        gainNode.gain.value = 0.6;
         gainNode.connect(this.context.destination)
         source.connect(gainNode)
         source.start(time);
@@ -725,12 +729,16 @@ class Randomizer {
     this.makeMonos();
     const modal = document.getElementsByClassName("modal")[0];
     modal.classList.remove("hidden");
+    const h1 = document.getElementById("randomizer-wait");
+    h1.classList.remove("hidden");
     setTimeout(this.playBeat.bind(this), 2000)
   }
 
   playBeat() {
     const modal = document.getElementsByClassName("modal")[0];
     modal.classList.add("hidden");
+    const h1 = document.getElementById("randomizer-wait");
+    h1.classList.add("hidden");
     this.metronome.tempoEventListener();
     this.metronome.handlePlay();
     this.metronome.playing = true;
@@ -1096,6 +1104,71 @@ class SoundUtil {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (SoundUtil);
+
+
+/***/ }),
+
+/***/ "./scripts/tutorial.js":
+/*!*****************************!*\
+  !*** ./scripts/tutorial.js ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+class Tutorial {
+  constructor() {
+
+  }
+
+  initialize() {
+    this.dir1Listeners();
+    const modal = document.getElementsByClassName("modal")[0];
+    modal.classList.remove("hidden");
+    const directions1 = document.getElementById("directions-1");
+    directions1.classList.remove("hidden");
+    this.dir2Listeners();
+    this.dir3Listeners();
+  }
+
+  dir1Listeners() {
+    document.getElementById("exit-1").addEventListener('click', () => {
+      document.getElementsByClassName("modal")[0].classList.add("hidden");
+      document.getElementById("directions-1").classList.add("hidden");
+    });
+    document.getElementById("next-1").addEventListener('click', () => {
+      document.getElementById("directions-1").classList.add("hidden");      document.getElementById("directions-2").classList.remove("hidden");
+    });
+  }
+
+  dir2Listeners() {
+    document.getElementById("exit-2").addEventListener('click', () => {
+      document.getElementsByClassName("modal")[0].classList.add("hidden");
+      document.getElementById("directions-2").classList.add("hidden");
+    });
+    document.getElementById("next-2").addEventListener('click', () => {
+      document.getElementById("directions-2").classList.add("hidden");      document.getElementById("directions-3").classList.remove("hidden");
+    });
+    document.getElementById("back-2").addEventListener('click', () => {
+      document.getElementById("directions-2").classList.add("hidden");      document.getElementById("directions-1").classList.remove("hidden");
+    });
+  }
+
+  dir3Listeners() {
+    document.getElementById("exit-3").addEventListener('click', () => {
+      document.getElementsByClassName("modal")[0].classList.add("hidden");
+      document.getElementById("directions-3").classList.add("hidden");
+    });
+
+    document.getElementById("back-3").addEventListener('click', () => {
+      document.getElementById("directions-3").classList.add("hidden");      document.getElementById("directions-2").classList.remove("hidden");
+    });
+  }
+
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (Tutorial);
 
 
 /***/ })

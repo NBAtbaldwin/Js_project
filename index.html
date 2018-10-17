@@ -11,7 +11,54 @@
   </head>
   <body>
     <div class="modal hidden">
-      <h1>Cooking up a beat...</h1>
+      <h1 id="randomizer-wait" class="hidden">Cooking up a beat...</h1>
+      <div id="directions-1" class="directions hidden">
+        <div class="">
+          <p>Welcome to tinyDAW! Never used a digital audio workstation before? No problem. Check out these instructions or just hit </p><button type="button">A.I. Beat</button><p> a bunch of times to generate random tunes.</p>
+        </div>
+        <footer>
+          <button id="exit-1" type="button" name="button">Exit</button>
+          <button id="next-1" type="button" name="button">Next ></button>
+        </footer>
+      </div>
+      <div id="directions-2" class="directions hidden">
+        <ul>
+          <li>
+            Tap keys '1' through '=', 'q' through ']', and 'a' through 'enter' to play sounds
+          </li>
+          <li>
+            <button type="button" id="demo-record">
+              <i class="far fa-dot-circle"></i>
+              <i class="fas fa-dot-circle hidden"></i>
+            </button> Click this button to record your keystrokes
+          </li>
+          <li>
+            <button type="button" id="demo-metronome">
+              <i class="far fa-circle"></i>
+              <i class="fas fa-circle"></i>
+            </button> Click this button to hear a metronome while playing or recording is enabled
+          </li>
+          <li>
+            <input type="range" min="40" max="200" value="120" id="demo-tempo-slide"> Drag the slider to change tempo while playing or paused
+          </li>
+        </ul>
+        <footer>
+          <button id="back-2" type="button" name="button">< Back</button>
+          <button id="exit-2" type="button" name="button">Exit</button>
+          <button id="next-2" type="button" name="button">Next ></button>
+        </footer>
+      </div>
+      <div id="directions-3" class="directions hidden">
+        <ul>
+          <li>Click on a grid square or drag across the grid to create notes</li>
+          <li><button type="button" class="chord" id="demo-chord-3">cosmic pad</button> Click buttons that look like this to select instruments</li>
+          <li><button type="button" class="clear" id="demo-clear-1">clear scene 1</button> Click 'clear' buttons to remove all notes from the corresponding grid</li>
+        </ul>
+        <footer>
+          <button id="back-3" type="button" name="button">< Back</button>
+          <button id="exit-3" type="button" name="button">Exit</button>
+        </footer>
+      </div>
     </div>
     <div class="container">
       <section>
@@ -107,7 +154,7 @@
             <button type="button" class="clear" id="clear-1">clear scene 1</button>
             <button type="button" class="clear" id="clear-2">clear scene 2</button>
             <button type="button" class="clear" id="clear-3">clear scene 3</button>
-            <button type="button" id="demo">demo</button>
+            <button type="button" id="demo">A.I. Beat</button>
           </div>
           <div class="samples-chord">
             <div class="">

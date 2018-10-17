@@ -5,6 +5,7 @@ import * as PlayUtil from './playUtil';
 import * as PadsUtil from './createPads';
 import RunDemo from './demo';
 import Randomizer from './randomizer';
+import Tutorial from './tutorial';
 
 
 let context;
@@ -24,6 +25,8 @@ function init() {
 
   SceneUtil.createScenes();
   PadsUtil.createPads();
+  const tutorial = new Tutorial();
+  tutorial.initialize();
 
   const playButton = document.getElementById('play');
   const metButton = document.getElementById('metronome');

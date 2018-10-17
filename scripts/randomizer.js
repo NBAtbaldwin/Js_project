@@ -21,12 +21,16 @@ class Randomizer {
     this.makeMonos();
     const modal = document.getElementsByClassName("modal")[0];
     modal.classList.remove("hidden");
+    const h1 = document.getElementById("randomizer-wait");
+    h1.classList.remove("hidden");
     setTimeout(this.playBeat.bind(this), 2000)
   }
 
   playBeat() {
     const modal = document.getElementsByClassName("modal")[0];
     modal.classList.add("hidden");
+    const h1 = document.getElementById("randomizer-wait");
+    h1.classList.add("hidden");
     this.metronome.tempoEventListener();
     this.metronome.handlePlay();
     this.metronome.playing = true;
