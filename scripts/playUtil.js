@@ -58,6 +58,7 @@ export const clearScene = (index) => {
   let sequences = master.childNodes;
   let sequence = Array.from(sequences)[index+1];
   let rows = sequence.childNodes;
+  console.log(rows);
   rows = Array.from(rows);
   rows.forEach((row, idx) => {
     let colArr = Array.from(row.childNodes);
