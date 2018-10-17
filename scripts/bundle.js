@@ -741,7 +741,7 @@ class Randomizer {
   }
 
   makeGlobalSettings() {
-    const chords = ['chord-0', 'chord-1', 'chord-2', 'chord-3', 'chord-4'];
+    const chords = ['chord-0', 'chord-1', 'chord-3', 'chord-4'];
     const chord = chords[Math.floor(Math.random()*chords.length)];
     document.getElementById(`${chord}`).classList.add('selected');
     this.soundFactory.generateChord(parseInt(chord[chord.length-1]));
@@ -897,7 +897,7 @@ class Randomizer {
     });
     let pitch = intervals[Math.floor(Math.random()*intervals.length)] + 12;
     if (!this.monoLocations[beat]) {
-      this.drumsChancePicker([pitch], beat, 2, 8, 6, 5, 4, 4);
+      this.drumsChancePicker([pitch], beat, 2, 9, 8.5, 8, 7, 7);
     }
   }
 
