@@ -420,7 +420,7 @@ function init() {
     // soundFactory.generateChord(0);
     // soundFactory.generateMono(0);
     let randomizer = new _randomizer__WEBPACK_IMPORTED_MODULE_6__["default"](metronome, soundFactory, context);
-    randomizer.playBeat();
+    randomizer.initializeBeat();
   })
 
 }
@@ -717,17 +717,26 @@ class Randomizer {
     this.monoLocations = {};
   }
 
-  playBeat() {
+  initializeBeat() {
     this.resetSounds();
     this.makeGlobalSettings();
     this.makeDrums();
     this.makeChords();
     this.makeMonos();
+    const modal = document.getElementsByClassName("modal")[0];
+    modal.classList.remove("hidden");
+    setTimeout(this.playBeat.bind(this), 2000)
+  }
+
+  playBeat() {
+    const modal = document.getElementsByClassName("modal")[0];
+    modal.classList.add("hidden");
     this.metronome.tempoEventListener();
     this.metronome.handlePlay();
     this.metronome.playing = true;
     document.getElementById('play').classList.add('selected')
   }
+
 
   resetSounds() {
     const chordNodeList = document.getElementsByClassName('chord');

@@ -10,126 +10,129 @@
     <title>tinyDAW</title>
   </head>
   <body>
-    <div class="modal">
+    <div class="modal hidden">
+      <h1>Cooking up a beat...</h1>
     </div>
-    <section>
-      <div class="scene-labels">
-        <div>
-          <p>1</p>
-        </div>
-        <div>
-          <p>2</p>
-        </div>
-        <div>
-          <p>3</p>
-        </div>
-      </div>
-      <div>
-        <div class="icon-links">
-          <a href="https://github.com/NBAtbaldwin"><i class="fab fa-github"></i></a>
-          <a href="https://www.linkedin.com/in/tyler-baldwin-47482391/"><i class="fab fa-linkedin-in"></i></a>
-          <a href="https://tylerbaldwin.co"><p>Portfolio</p></a>
-        </div>
-        <div class="global-controls">
-          <button type="button" id="metronome">
-            <i class="far fa-circle"></i>
-            <i class="fas fa-circle"></i>
-          </button>
-          <input type="number" id="tempo"
-             placeholder="Min: 40, max: 200"
-             min="40" max="200" value="120" disabled/>
-          <input type="range" min="40" max="200" value="120" id="tempo-slide">
-
-          <button type="button" id="play">
-            <i class="fas fa-play"></i>
-            <i class="fas fa-pause"></i>
-          </button>
-
-          <button type="button" id="record">
-            <i class="far fa-dot-circle"></i>
-            <i class="fas fa-dot-circle hidden"></i>
-          </button>
-        </div>
-        <div>
-          <div class="sound-labels">
-            <ul>
-              <li>yeeeah</li>
-              <li>click</li>
-              <li>ride2</li>
-              <li>ride1</li>
-              <li>hat</li>
-              <li>clap2</li>
-              <li>clap1</li>
-              <li>snare2</li>
-              <li>snare1</li>
-              <li>kick</li>
-              <li>hi808</li>
-              <li>lo808</li>
-            </ul>
-            <ul>
-              <li>b</li>
-              <li>a#</li>
-              <li>a</li>
-              <li>g#</li>
-              <li>g</li>
-              <li>f#</li>
-              <li>f</li>
-              <li>e</li>
-              <li>d#</li>
-              <li>d</li>
-              <li>c#</li>
-              <li>c</li>
-            </ul>
-            <ul>
-              <li>b</li>
-              <li>a#</li>
-              <li>a</li>
-              <li>g#</li>
-              <li>g</li>
-              <li>f#</li>
-              <li>f</li>
-              <li>e</li>
-              <li>d#</li>
-              <li>d</li>
-              <li>c#</li>
-              <li>c</li>
-            </ul>
-          </div>
-          <div id="sequence-master">
-
-          </div>
-        </div>
-      </div>
-      <div class="sample-container">
-        <div class="samples-placeholder">
-          <button type="button" class="clear" id="clear-1">clear scene 1</button>
-          <button type="button" class="clear" id="clear-2">clear scene 2</button>
-          <button type="button" class="clear" id="clear-3">clear scene 3</button>
-          <button type="button" id="demo">demo</button>
-        </div>
-        <div class="samples-chord">
-          <div class="">
-            <button type="button" class="chord" id="chord-0">deep pad</button>
-            <button type="button" class="chord" id="chord-1">ripple pad</button>
-            <button type="button" class="chord" id="chord-2">bells pad</button>
-            <button type="button" class="chord" id="chord-3">cosmic pad</button>
-            <button type="button" class="chord" id="chord-4">synth stab</button>
-          </div>
-          <p>2</p>
-        </div>
-        <div class="samples-mono">
+    <div class="container">
+      <section>
+        <div class="scene-labels">
           <div>
-            <button type="button" class="mono" id="mono-0">analog lead</button>
-            <button type="button" class="mono" id="mono-1">reverb lead</button>
-            <button type="button" class="mono" id="mono-2">voltage</button>
+            <p>1</p>
           </div>
-          <p>3</p>
+          <div>
+            <p>2</p>
+          </div>
+          <div>
+            <p>3</p>
+          </div>
         </div>
-      </div>
-    </section>
-    <div class="pads-container">
-      <div id="pads-master">
+        <div>
+          <div class="icon-links">
+            <a href="https://github.com/NBAtbaldwin"><i class="fab fa-github"></i></a>
+            <a href="https://www.linkedin.com/in/tyler-baldwin-47482391/"><i class="fab fa-linkedin-in"></i></a>
+            <a href="https://tylerbaldwin.co"><p>Portfolio</p></a>
+          </div>
+          <div class="global-controls">
+            <button type="button" id="metronome">
+              <i class="far fa-circle"></i>
+              <i class="fas fa-circle"></i>
+            </button>
+            <input type="number" id="tempo"
+               placeholder="Min: 40, max: 200"
+               min="40" max="200" value="120" disabled/>
+            <input type="range" min="40" max="200" value="120" id="tempo-slide">
 
+            <button type="button" id="play">
+              <i class="fas fa-play"></i>
+              <i class="fas fa-pause"></i>
+            </button>
+
+            <button type="button" id="record">
+              <i class="far fa-dot-circle"></i>
+              <i class="fas fa-dot-circle hidden"></i>
+            </button>
+          </div>
+          <div>
+            <div class="sound-labels">
+              <ul>
+                <li>yeeeah</li>
+                <li>click</li>
+                <li>ride2</li>
+                <li>ride1</li>
+                <li>hat</li>
+                <li>clap2</li>
+                <li>clap1</li>
+                <li>snare2</li>
+                <li>snare1</li>
+                <li>kick</li>
+                <li>hi808</li>
+                <li>lo808</li>
+              </ul>
+              <ul>
+                <li>b</li>
+                <li>a#</li>
+                <li>a</li>
+                <li>g#</li>
+                <li>g</li>
+                <li>f#</li>
+                <li>f</li>
+                <li>e</li>
+                <li>d#</li>
+                <li>d</li>
+                <li>c#</li>
+                <li>c</li>
+              </ul>
+              <ul>
+                <li>b</li>
+                <li>a#</li>
+                <li>a</li>
+                <li>g#</li>
+                <li>g</li>
+                <li>f#</li>
+                <li>f</li>
+                <li>e</li>
+                <li>d#</li>
+                <li>d</li>
+                <li>c#</li>
+                <li>c</li>
+              </ul>
+            </div>
+            <div id="sequence-master">
+
+            </div>
+          </div>
+        </div>
+        <div class="sample-container">
+          <div class="samples-placeholder">
+            <button type="button" class="clear" id="clear-1">clear scene 1</button>
+            <button type="button" class="clear" id="clear-2">clear scene 2</button>
+            <button type="button" class="clear" id="clear-3">clear scene 3</button>
+            <button type="button" id="demo">demo</button>
+          </div>
+          <div class="samples-chord">
+            <div class="">
+              <button type="button" class="chord" id="chord-0">deep pad</button>
+              <button type="button" class="chord" id="chord-1">ripple pad</button>
+              <button type="button" class="chord" id="chord-2">bells pad</button>
+              <button type="button" class="chord" id="chord-3">cosmic pad</button>
+              <button type="button" class="chord" id="chord-4">synth stab</button>
+            </div>
+            <p>2</p>
+          </div>
+          <div class="samples-mono">
+            <div>
+              <button type="button" class="mono" id="mono-0">analog lead</button>
+              <button type="button" class="mono" id="mono-1">reverb lead</button>
+              <button type="button" class="mono" id="mono-2">voltage</button>
+            </div>
+            <p>3</p>
+          </div>
+        </div>
+      </section>
+      <div class="pads-container">
+        <div id="pads-master">
+
+        </div>
       </div>
     </div>
   </body>

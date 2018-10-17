@@ -182,7 +182,7 @@ function init() {
     // soundFactory.generateChord(0);
     // soundFactory.generateMono(0);
     let randomizer = new Randomizer(metronome, soundFactory, context);
-    randomizer.playBeat();
+    randomizer.initializeBeat();
   })
 
 }
