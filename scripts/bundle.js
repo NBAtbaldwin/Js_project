@@ -465,6 +465,8 @@ class Metronome {
     this.recording = false;
     this.metronomePlaying = false;
     this.playing = false;
+    this.filter = this.context.createBiquadFilter();
+    this.filterConnected = true;
   }
 
   stop() {
@@ -504,14 +506,16 @@ class Metronome {
         let soundIdx = this.keyCodes.drums[keyIdx];
         let source = this.context.createBufferSource();
         source.buffer = this.sounds.drums[soundIdx];
-        source.connect(this.context.destination);
+        this.filter.connect(this.context.destination);
+        source.connect(this.filter);
         source.start(time);
       } else if (keyIdx > 11 && keyIdx < 24) {
         let soundIdx = this.keyCodes.chords[keyIdx-12];
         let source = this.context.createBufferSource();
         source.buffer = this.sounds.chords[soundIdx];
         source.playbackRate.value = _playUtil__WEBPACK_IMPORTED_MODULE_0__["pitchTransform"](keyIdx-12);
-        source.connect(this.context.destination);
+        this.filter.connect(this.context.destination);
+        source.connect(this.filter);
         source.start(time);
       } else if (keyIdx > 23 && keyIdx < 36) {
         let soundIdx = this.keyCodes.mono[keyIdx-24];
@@ -520,8 +524,9 @@ class Metronome {
         source.playbackRate.value = _playUtil__WEBPACK_IMPORTED_MODULE_0__["pitchTransform"](keyIdx-24);
         const gainNode = this.context.createGain()
         gainNode.gain.value = 0.6;
-        gainNode.connect(this.context.destination)
-        source.connect(gainNode)
+        gainNode.connect(this.filter);
+        this.filter.connect(this.context.destination);
+        source.connect(this.filter);
         source.start(time);
       }
     });
@@ -532,6 +537,7 @@ class Metronome {
     this.noteTime = 0.0
     this.startTime = this.context.currentTime + .005;
     this.planNotes();
+    this.filterEventListener();
   }
 
   planNotes() {
@@ -564,6 +570,15 @@ class Metronome {
 
     tempoSlide.addEventListener('change', (e) => {
       this.tempo = e.target.value;
+    })
+  }
+
+  filterEventListener() {
+    const filterSlide = document.getElementById('filter-slide');
+
+    filterSlide.addEventListener('input', (e) => {
+      console.log(e)
+      this.filter.frequency.value = e.target.value;
     })
   }
 
@@ -602,6 +617,8 @@ class Metronome {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Metronome);
+
+// does this work?
 
 
 /***/ }),
