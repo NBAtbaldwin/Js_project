@@ -344,9 +344,11 @@ function init() {
       metronome.recording = true;
       recordButton.classList.add('selected')
     } else if (metronome.recording === true) {
+      _playUtil__WEBPACK_IMPORTED_MODULE_3__["clearAllScenes"]('on-beat-record');
       metronome.recording = false;
-      recordButton.classList.remove('selected')
+      recordButton.classList.remove('selected');
     } else if (metronome.playing === true) {
+      _playUtil__WEBPACK_IMPORTED_MODULE_3__["clearAllScenes"]('on-beat');
       metronome.recording = true;
       recordButton.classList.add('selected')
       metronome.keyHitEventListener();
@@ -476,6 +478,7 @@ class Metronome {
     clearTimeout(this.timeoutId);
     this.recording = false;
     _playUtil__WEBPACK_IMPORTED_MODULE_0__["clearAllScenes"]('on-beat');
+    _playUtil__WEBPACK_IMPORTED_MODULE_0__["clearAllScenes"]('on-beat-record');
   }
 
   playClick(time) {
@@ -544,8 +547,8 @@ class Metronome {
     currentTime -= this.startTime;
     while (this.noteTime < currentTime + .05) {
       let contextPlayTime = this.noteTime + this.startTime;
-      _playUtil__WEBPACK_IMPORTED_MODULE_0__["highlightBeat"](this.beat);
-      _playUtil__WEBPACK_IMPORTED_MODULE_0__["unHighlightBeat"](this.beat);
+      _playUtil__WEBPACK_IMPORTED_MODULE_0__["highlightBeat"](this.beat, this.recording);
+      _playUtil__WEBPACK_IMPORTED_MODULE_0__["unHighlightBeat"](this.beat, this.recording);
       this.playSound(contextPlayTime);
       if (this.metronomePlaying) {
         this.playClick(contextPlayTime);
@@ -643,18 +646,18 @@ const getSoundIdx = (beat) => {
   return drumSoundIdxList;
 }
 
-const highlightBeat = (beat) => {
+const highlightBeat = (beat, recording) => {
   let rows = document.getElementsByClassName(`row-${beat}`);
   rows = Array.from(rows);
   rows.forEach((row, idx) => {
     let colArr = Array.from(row.childNodes);
     colArr.forEach((node, idx) => {
-      node.classList.add('on-beat');
+      recording ? node.classList.add('on-beat-record') : node.classList.add('on-beat');
     })
   });
 }
 
-const unHighlightBeat = (beat) => {
+const unHighlightBeat = (beat, recording) => {
   let beatAlias;
   beat === 0 ? beatAlias = 32 : beatAlias = beat;
   let rows = document.getElementsByClassName(`row-${beatAlias - 1}`);
@@ -662,7 +665,7 @@ const unHighlightBeat = (beat) => {
   rows.forEach((row, idx) => {
     let colArr = Array.from(row.childNodes);
     colArr.forEach((node, idx) => {
-      node.classList.remove('on-beat');
+      recording ? node.classList.remove('on-beat-record') : node.classList.remove('on-beat');
     })
   });
 }

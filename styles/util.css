@@ -462,6 +462,11 @@ section > div:nth-child(2) > div:last-child {
   background-color: black;
 }
 
+.on-beat-record {
+  background-color: red;
+
+}
+
 .selected {
   background-color: black;
 }

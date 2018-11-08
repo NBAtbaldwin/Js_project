@@ -26,6 +26,7 @@ class Metronome {
     clearTimeout(this.timeoutId);
     this.recording = false;
     playUtil.clearAllScenes('on-beat');
+    playUtil.clearAllScenes('on-beat-record');
   }
 
   playClick(time) {
@@ -94,8 +95,8 @@ class Metronome {
     currentTime -= this.startTime;
     while (this.noteTime < currentTime + .05) {
       let contextPlayTime = this.noteTime + this.startTime;
-      playUtil.highlightBeat(this.beat);
-      playUtil.unHighlightBeat(this.beat);
+      playUtil.highlightBeat(this.beat, this.recording);
+      playUtil.unHighlightBeat(this.beat, this.recording);
       this.playSound(contextPlayTime);
       if (this.metronomePlaying) {
         this.playClick(contextPlayTime);

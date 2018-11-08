@@ -13,18 +13,18 @@ export const getSoundIdx = (beat) => {
   return drumSoundIdxList;
 }
 
-export const highlightBeat = (beat) => {
+export const highlightBeat = (beat, recording) => {
   let rows = document.getElementsByClassName(`row-${beat}`);
   rows = Array.from(rows);
   rows.forEach((row, idx) => {
     let colArr = Array.from(row.childNodes);
     colArr.forEach((node, idx) => {
-      node.classList.add('on-beat');
+      recording ? node.classList.add('on-beat-record') : node.classList.add('on-beat');
     })
   });
 }
 
-export const unHighlightBeat = (beat) => {
+export const unHighlightBeat = (beat, recording) => {
   let beatAlias;
   beat === 0 ? beatAlias = 32 : beatAlias = beat;
   let rows = document.getElementsByClassName(`row-${beatAlias - 1}`);
@@ -32,7 +32,7 @@ export const unHighlightBeat = (beat) => {
   rows.forEach((row, idx) => {
     let colArr = Array.from(row.childNodes);
     colArr.forEach((node, idx) => {
-      node.classList.remove('on-beat');
+      recording ? node.classList.remove('on-beat-record') : node.classList.remove('on-beat');
     })
   });
 }

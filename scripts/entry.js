@@ -105,9 +105,11 @@ function init() {
       metronome.recording = true;
       recordButton.classList.add('selected')
     } else if (metronome.recording === true) {
+      PlayUtil.clearAllScenes('on-beat-record');
       metronome.recording = false;
-      recordButton.classList.remove('selected')
+      recordButton.classList.remove('selected');
     } else if (metronome.playing === true) {
+      PlayUtil.clearAllScenes('on-beat');
       metronome.recording = true;
       recordButton.classList.add('selected')
       metronome.keyHitEventListener();
