@@ -618,8 +618,6 @@ class Metronome {
 
 /* harmony default export */ __webpack_exports__["default"] = (Metronome);
 
-// does this work?
-
 
 /***/ }),
 

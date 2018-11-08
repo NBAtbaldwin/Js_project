@@ -172,5 +172,3 @@ class Metronome {
 }
 
 export default Metronome
-
-// does this work?
