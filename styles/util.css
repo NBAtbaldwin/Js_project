@@ -330,7 +330,19 @@ section > div:nth-child(2) {
   padding: 9px;
   text-align: center;
   margin-right: 6px;
-  color: yellow
+  color: yellow;
+  position: relative;
+}
+
+#help {
+  position: absolute;
+  border-radius: 18px;
+  height: 36px;
+  width: 36px;
+  left: 505px;
+  top: 5px;
+  font-size: 26px;
+  line-height: 23px;
 }
 
 #demo-tempo-slide, #tempo-slide {

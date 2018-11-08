@@ -277,6 +277,11 @@ function init() {
   const tempoSlide = document.getElementById('tempo-slide');
   const pads = document.querySelectorAll('.pad');
   let metronome = null;
+  const helpButton = document.getElementById('help');
+
+  helpButton.addEventListener('click', () => {
+    tutorial.initialize();
+  })
 
   metButton.addEventListener('click', (e) => {
     if ( metronome === null || metronome === 'undefined' || metronome.playing === false) {
@@ -602,6 +607,8 @@ class Metronome {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (Metronome);
+
+// does this work?
 
 
 /***/ }),

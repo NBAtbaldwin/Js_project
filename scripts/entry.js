@@ -38,6 +38,11 @@ function init() {
   const tempoSlide = document.getElementById('tempo-slide');
   const pads = document.querySelectorAll('.pad');
   let metronome = null;
+  const helpButton = document.getElementById('help');
+
+  helpButton.addEventListener('click', () => {
+    tutorial.initialize();
+  })
 
   metButton.addEventListener('click', (e) => {
     if ( metronome === null || metronome === 'undefined' || metronome.playing === false) {
