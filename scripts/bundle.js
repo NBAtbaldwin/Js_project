@@ -342,7 +342,8 @@ function init() {
       metronome.handlePlay();
       metronome.playing = true;
       metronome.recording = true;
-      recordButton.classList.add('selected')
+      recordButton.classList.add('selected');
+      _playUtil__WEBPACK_IMPORTED_MODULE_3__["clearAllScenes"]('on-beat');
     } else if (metronome.recording === true) {
       _playUtil__WEBPACK_IMPORTED_MODULE_3__["clearAllScenes"]('on-beat-record');
       metronome.recording = false;
