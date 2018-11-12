@@ -284,15 +284,22 @@ function init() {
   })
 
   metButton.addEventListener('click', (e) => {
-    if ( metronome === null || metronome === 'undefined' || metronome.playing === false) {
-      return;
-    } else if(metronome.metronomePlaying === true) {
-      metronome.metronomePlaying = false;
+    if(metButton.classList.contains('selected')) {
       metButton.classList.remove('selected');
-      return;
+      metronome === null ? null : metronome.playing ? metronome.metronomePlaying = false : null;
+    } else {
+      metButton.classList.add('selected');
+      metronome === null ? null : metronome.playing ? metronome.metronomePlaying = true : null;
     }
-    metronome.metronomePlaying = true;
-    metButton.classList.add('selected');
+    // if ( metronome === null || metronome === 'undefined' || metronome.playing === false) {
+    //   return;
+    // } else if(metronome.metronomePlaying === true) {
+    //   metronome.metronomePlaying = false;
+    //   metButton.classList.remove('selected');
+    //   return;
+    // }
+    // metronome.metronomePlaying = true;
+    // metButton.classList.add('selected');
   });
 
   playButton.addEventListener('click', (e) => {
@@ -471,7 +478,7 @@ class Metronome {
     this.timeoutId = 0;
     this.keyCodes = {drums: drumKeyCodes, chords: chordKeyCodes, mono: monoKeyCodes};
     this.recording = false;
-    this.metronomePlaying = false;
+    this.metronomePlaying = document.getElementById('metronome').classList.contains('selected');
     this.playing = false;
   }
 

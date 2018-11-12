@@ -18,7 +18,7 @@ class Metronome {
     this.timeoutId = 0;
     this.keyCodes = {drums: drumKeyCodes, chords: chordKeyCodes, mono: monoKeyCodes};
     this.recording = false;
-    this.metronomePlaying = false;
+    this.metronomePlaying = document.getElementById('metronome').classList.contains('selected');
     this.playing = false;
   }
 
