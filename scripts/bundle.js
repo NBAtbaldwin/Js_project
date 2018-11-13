@@ -257,8 +257,8 @@ function init() {
   context = new AudioContext();
   const soundFactory = new _soundUtil__WEBPACK_IMPORTED_MODULE_2__["default"](context);
   soundFactory.generateDrums();
-  soundFactory.generateChord(2);
-  soundFactory.generateMono(1);
+  soundFactory.generateChord(0);
+  soundFactory.generateMono(0);
 
   soundFactory.keyDownEventListener();
 
@@ -330,6 +330,7 @@ function init() {
       metronome.handlePlay();
       metronome.playing = true;
       playButton.classList.add('selected');
+
     } else if(metronome.playing === true) {
       metronome.metronomePlaying = false;
       metronome.stop();
@@ -351,15 +352,26 @@ function init() {
       metronome.recording = true;
       recordButton.classList.add('selected');
       _playUtil__WEBPACK_IMPORTED_MODULE_3__["clearAllScenes"]('on-beat');
+
+      recordButton.children[0].classList.remove('far', 'fa-dot-circle');
+      recordButton.children[0].classList.add('fas', 'fa-stop');
+
     } else if (metronome.recording === true) {
       _playUtil__WEBPACK_IMPORTED_MODULE_3__["clearAllScenes"]('on-beat-record');
       metronome.recording = false;
       recordButton.classList.remove('selected');
+
+      recordButton.children[0].classList.add('far', 'fa-dot-circle');
+      recordButton.children[0].classList.remove('fas', 'fa-stop');
+
     } else if (metronome.playing === true) {
       _playUtil__WEBPACK_IMPORTED_MODULE_3__["clearAllScenes"]('on-beat');
       metronome.recording = true;
       recordButton.classList.add('selected')
       metronome.keyHitEventListener();
+
+      recordButton.children[0].classList.remove('far', 'fa-dot-circle');
+      recordButton.children[0].classList.add('fas', 'fa-stop');
     }
 
   });
@@ -434,6 +446,8 @@ function init() {
     metButton.classList.remove('selected');
     playButton.classList.remove('selected');
     recordButton.classList.remove('selected');
+    recordButton.children[0].classList.add('far', 'fa-dot-circle');
+    recordButton.children[0].classList.remove('fas', 'fa-stop');
     _playUtil__WEBPACK_IMPORTED_MODULE_3__["clearAllScenes"]('selected');
     metronome = new _metronome__WEBPACK_IMPORTED_MODULE_0__["default"](soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
     // soundFactory.generateChord(0);
@@ -1037,9 +1051,9 @@ class SoundUtil {
     this.generateDrums = this.generateDrums.bind(this);
     this.generateMono = this.generateMono.bind(this);
     this.keyDownEventListener = this.keyDownEventListener.bind(this);
-    this.drumKeyCodes = [65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 222, 13];
+    this.monoKeyCodes = [65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 222, 13];
     this.chordKeyCodes = [81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221];
-    this.monoKeyCodes = [49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 189, 187];
+    this.drumKeyCodes = [49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 189, 187];
   }
 
   generateDrums() {

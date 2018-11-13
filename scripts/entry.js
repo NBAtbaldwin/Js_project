@@ -18,8 +18,8 @@ function init() {
   context = new AudioContext();
   const soundFactory = new SoundUtil(context);
   soundFactory.generateDrums();
-  soundFactory.generateChord(2);
-  soundFactory.generateMono(1);
+  soundFactory.generateChord(0);
+  soundFactory.generateMono(0);
 
   soundFactory.keyDownEventListener();
 
@@ -91,6 +91,7 @@ function init() {
       metronome.handlePlay();
       metronome.playing = true;
       playButton.classList.add('selected');
+
     } else if(metronome.playing === true) {
       metronome.metronomePlaying = false;
       metronome.stop();
@@ -112,15 +113,26 @@ function init() {
       metronome.recording = true;
       recordButton.classList.add('selected');
       PlayUtil.clearAllScenes('on-beat');
+
+      recordButton.children[0].classList.remove('far', 'fa-dot-circle');
+      recordButton.children[0].classList.add('fas', 'fa-stop');
+
     } else if (metronome.recording === true) {
       PlayUtil.clearAllScenes('on-beat-record');
       metronome.recording = false;
       recordButton.classList.remove('selected');
+
+      recordButton.children[0].classList.add('far', 'fa-dot-circle');
+      recordButton.children[0].classList.remove('fas', 'fa-stop');
+
     } else if (metronome.playing === true) {
       PlayUtil.clearAllScenes('on-beat');
       metronome.recording = true;
       recordButton.classList.add('selected')
       metronome.keyHitEventListener();
+
+      recordButton.children[0].classList.remove('far', 'fa-dot-circle');
+      recordButton.children[0].classList.add('fas', 'fa-stop');
     }
 
   });
@@ -195,6 +207,8 @@ function init() {
     metButton.classList.remove('selected');
     playButton.classList.remove('selected');
     recordButton.classList.remove('selected');
+    recordButton.children[0].classList.add('far', 'fa-dot-circle');
+    recordButton.children[0].classList.remove('fas', 'fa-stop');
     PlayUtil.clearAllScenes('selected');
     metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
     // soundFactory.generateChord(0);
