@@ -32,14 +32,14 @@ class Metronome {
   playClick(time) {
     if (this.beat % 16 === 0) {
       const source = this.context.createBufferSource();
-      source.buffer = this.sounds.drums[222];
+      source.buffer = this.sounds.drums[189];
       source.playbackRate.value = 1.2;
       source.connect(this.context.destination);
       source.start(time);
     } else if (this.beat % 4 === 0) {
 
       const source = this.context.createBufferSource();
-      source.buffer = this.sounds.drums[222];
+      source.buffer = this.sounds.drums[189];
 
       const gainNode = this.context.createGain()
       gainNode.gain.value = 0.7;
