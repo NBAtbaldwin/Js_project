@@ -316,6 +316,8 @@ function init() {
       metButton.classList.remove('selected');
       playButton.classList.remove('selected');
       recordButton.classList.remove('selected');
+      recordButton.children[0].classList.add('far', 'fa-dot-circle');
+      recordButton.children[0].classList.remove('fas', 'fa-stop');
       return;
     }
   });
@@ -337,6 +339,7 @@ function init() {
       playButton.classList.remove('selected');
       metButton.classList.remove('selected');
       recordButton.classList.remove('selected');
+
       metronome = null;
       return;
     }
