@@ -1,4 +1,4 @@
-import Metronome from './metronome';
+import masterMetronome from './metronome';
 import * as SceneUtil from './createScene';
 import SoundUtil from './soundUtil';
 import * as PlayUtil from './playUtil';
@@ -8,18 +8,34 @@ import Randomizer from './randomizer';
 import Tutorial from './tutorial';
 
 
-let context;
 let audioBufferSourceNode;
 const keySet = new Set([65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 222, 13, 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 189, 187]);
 
 window.addEventListener('load', init, false);
 function init() {
+  let state = {
+    context: new AudioContext(),
+    drumKitArray: null,
+    chordArray: null,
+    monoArray: null,
+    tempo: 45,
+    drumKeyCodes: null,
+    chordKeyCodes: null,
+    monoKeyCodes: null,
+  };
+
   window.AudioContext = window.AudioContext||window.webkitAudioContext;
-  context = new AudioContext();
-  const soundFactory = new SoundUtil(context);
+  const soundFactory = new SoundUtil(state.context);
   soundFactory.generateDrums();
   soundFactory.generateChord(0);
   soundFactory.generateMono(0);
+
+  state.drumKitArray = soundFactory.drumKitBuffers;
+  state.chordArray = soundFactory.chordBuffers;
+  state.monoArray = soundFactory.monoBuffers;
+  state.drumKeyCodes = soundFactory.drumKeyCodes;
+  state.chordKeyCodes = soundFactory.chordKeyCodes;
+  state.monoKeyCodes = soundFactory.monoKeyCodes;
 
   soundFactory.keyDownEventListener();
 
@@ -65,9 +81,9 @@ function init() {
 
   playButton.addEventListener('click', (e) => {
     if (metronome === null) {
-      metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
+      metronome = masterMetronome(state);
       metronome.tempoEventListener();
-      metronome.handlePlay();
+      metronome.handlePlay(metronome);
       metronome.playing = true;
       playButton.classList.add('selected')
     } else if(metronome.playing === true) {
@@ -88,7 +104,7 @@ function init() {
       return;
     }
     if (metronome === null) {
-      metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
+      metronome = new masterMetronome(state);
       metronome.tempoEventListener();
       metronome.handlePlay();
       metronome.playing = true;
@@ -108,7 +124,7 @@ function init() {
 
   recordButton.addEventListener('click', (e) => {
     if (metronome === null) {
-      metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
+      metronome = masterMetronome(state);
       metronome.tempoEventListener();
       metronome.keyHitEventListener();
       metronome.handlePlay();
@@ -141,7 +157,7 @@ function init() {
   });
 
   tempoSlide.addEventListener('change', (e) => {
-    tempoField.value = e.target.value;
+    [tempoField.value, state.tempo] = [e.target.value, e.target.value];
   });
 
   Array.from(chordNodeList).forEach((node, idx) => {
@@ -196,10 +212,10 @@ function init() {
   //   playButton.classList.remove('selected');
   //   recordButton.classList.remove('selected');
   //   PlayUtil.clearAllScenes('selected');
-  //   metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
+  //   metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, state.context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
   //   soundFactory.generateChord(0);
   //   soundFactory.generateMono(0);
-  //   RunDemo(metronome, context);
+  //   RunDemo(metronome, state.context);
   // })
 
   document.getElementById('demo').addEventListener('click', () => {
@@ -213,10 +229,10 @@ function init() {
     recordButton.children[0].classList.add('far', 'fa-dot-circle');
     recordButton.children[0].classList.remove('fas', 'fa-stop');
     PlayUtil.clearAllScenes('selected');
-    metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
+    metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, state.context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
     // soundFactory.generateChord(0);
     // soundFactory.generateMono(0);
-    let randomizer = new Randomizer(metronome, soundFactory, context);
+    let randomizer = new Randomizer(metronome, soundFactory, state.context);
     randomizer.initializeBeat();
   })
 

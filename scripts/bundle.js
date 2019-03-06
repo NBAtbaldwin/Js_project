@@ -247,18 +247,34 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-let context;
 let audioBufferSourceNode;
 const keySet = new Set([65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 222, 13, 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 189, 187]);
 
 window.addEventListener('load', init, false);
 function init() {
+  let state = {
+    context: new AudioContext(),
+    drumKitArray: null,
+    chordArray: null,
+    monoArray: null,
+    tempo: 45,
+    drumKeyCodes: null,
+    chordKeyCodes: null,
+    monoKeyCodes: null,
+  };
+
   window.AudioContext = window.AudioContext||window.webkitAudioContext;
-  context = new AudioContext();
-  const soundFactory = new _soundUtil__WEBPACK_IMPORTED_MODULE_2__["default"](context);
+  const soundFactory = new _soundUtil__WEBPACK_IMPORTED_MODULE_2__["default"](state.context);
   soundFactory.generateDrums();
   soundFactory.generateChord(0);
   soundFactory.generateMono(0);
+
+  state.drumKitArray = soundFactory.drumKitBuffers;
+  state.chordArray = soundFactory.chordBuffers;
+  state.monoArray = soundFactory.monoBuffers;
+  state.drumKeyCodes = soundFactory.drumKeyCodes;
+  state.chordKeyCodes = soundFactory.chordKeyCodes;
+  state.monoKeyCodes = soundFactory.monoKeyCodes;
 
   soundFactory.keyDownEventListener();
 
@@ -304,9 +320,9 @@ function init() {
 
   playButton.addEventListener('click', (e) => {
     if (metronome === null) {
-      metronome = new _metronome__WEBPACK_IMPORTED_MODULE_0__["default"](soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
+      metronome = Object(_metronome__WEBPACK_IMPORTED_MODULE_0__["default"])(state);
       metronome.tempoEventListener();
-      metronome.handlePlay();
+      metronome.handlePlay(metronome);
       metronome.playing = true;
       playButton.classList.add('selected')
     } else if(metronome.playing === true) {
@@ -327,7 +343,7 @@ function init() {
       return;
     }
     if (metronome === null) {
-      metronome = new _metronome__WEBPACK_IMPORTED_MODULE_0__["default"](soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
+      metronome = new _metronome__WEBPACK_IMPORTED_MODULE_0__["default"](state);
       metronome.tempoEventListener();
       metronome.handlePlay();
       metronome.playing = true;
@@ -347,7 +363,7 @@ function init() {
 
   recordButton.addEventListener('click', (e) => {
     if (metronome === null) {
-      metronome = new _metronome__WEBPACK_IMPORTED_MODULE_0__["default"](soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
+      metronome = Object(_metronome__WEBPACK_IMPORTED_MODULE_0__["default"])(state);
       metronome.tempoEventListener();
       metronome.keyHitEventListener();
       metronome.handlePlay();
@@ -380,7 +396,7 @@ function init() {
   });
 
   tempoSlide.addEventListener('change', (e) => {
-    tempoField.value = e.target.value;
+    [tempoField.value, state.tempo] = [e.target.value, e.target.value];
   });
 
   Array.from(chordNodeList).forEach((node, idx) => {
@@ -435,10 +451,10 @@ function init() {
   //   playButton.classList.remove('selected');
   //   recordButton.classList.remove('selected');
   //   PlayUtil.clearAllScenes('selected');
-  //   metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
+  //   metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, state.context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
   //   soundFactory.generateChord(0);
   //   soundFactory.generateMono(0);
-  //   RunDemo(metronome, context);
+  //   RunDemo(metronome, state.context);
   // })
 
   document.getElementById('demo').addEventListener('click', () => {
@@ -452,10 +468,10 @@ function init() {
     recordButton.children[0].classList.add('far', 'fa-dot-circle');
     recordButton.children[0].classList.remove('fas', 'fa-stop');
     _playUtil__WEBPACK_IMPORTED_MODULE_3__["clearAllScenes"]('selected');
-    metronome = new _metronome__WEBPACK_IMPORTED_MODULE_0__["default"](soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
+    metronome = new Metronome(soundFactory.drumKitBuffers, soundFactory.chordBuffers, soundFactory.monoBuffers, state.context, parseInt(document.getElementById('tempo').value), soundFactory.drumKeyCodes, soundFactory.chordKeyCodes, soundFactory.monoKeyCodes);
     // soundFactory.generateChord(0);
     // soundFactory.generateMono(0);
-    let randomizer = new _randomizer__WEBPACK_IMPORTED_MODULE_6__["default"](metronome, soundFactory, context);
+    let randomizer = new _randomizer__WEBPACK_IMPORTED_MODULE_6__["default"](metronome, soundFactory, state.context);
     randomizer.initializeBeat();
   })
 
@@ -478,163 +494,162 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class Metronome {
-  constructor(drumKitArray, chordArray, monoArray, context, tempo, drumKeyCodes, chordKeyCodes, monoKeyCodes) {
-    this.sounds = {drums: drumKitArray, chords: chordArray, mono: monoArray}
-    this.validKeySet = new Set([65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 222, 13, 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 189, 187]);
-    this.context = context;
-    this.tempo = tempo;
-    this.handlePlay = this.handlePlay.bind(this);
-    this.planNotes = this.planNotes.bind(this);
-    this.keyHitEventListener = this.keyHitEventListener.bind(this);
-    this.stop = this.stop.bind(this);
-    this.button = document.getElementById('metronome')
-    this.noteTime = 0.0;
-    this.startTime = 0.0
-    this.beat = 0;
-    this.timeoutId = 0;
-    this.keyCodes = {drums: drumKeyCodes, chords: chordKeyCodes, mono: monoKeyCodes};
-    this.recording = false;
-    this.metronomePlaying = document.getElementById('metronome').classList.contains('selected');
-    this.playing = false;
+const metronome = ({drumKitArray, chordArray, monoArray, context, tempo, drumKeyCodes, chordKeyCodes, monoKeyCodes}) => {
+  let state = {
+    sounds: {drums: drumKitArray, chords: chordArray, mono: monoArray},
+    validKeySet: new Set([65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 222, 13, 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 189, 187]),
+    context: context,
+    tempo: tempo,
+    button: document.getElementById('metronome'),
+    noteTime: 0.0,
+    startTime: 0.0,
+    beat: 0,
+    timeoutId: 0,
+    keyCodes: {drums: drumKeyCodes, chords: chordKeyCodes, mono: monoKeyCodes},
+    recording: false,
+    metronomePlaying: document.getElementById('metronome').classList.contains('selected'),
+    playing: false,
   }
 
-  stop() {
-    clearTimeout(this.timeoutId);
-    this.recording = false;
-    _playUtil__WEBPACK_IMPORTED_MODULE_0__["clearAllScenes"]('on-beat');
-    _playUtil__WEBPACK_IMPORTED_MODULE_0__["clearAllScenes"]('on-beat-record');
-  }
-
-  playClick(time) {
-    if (this.beat % 16 === 0) {
-      const source = this.context.createBufferSource();
-      source.buffer = this.sounds.drums[189];
-      source.playbackRate.value = 1.2;
-      source.connect(this.context.destination);
-      source.start(time);
-    } else if (this.beat % 4 === 0) {
-
-      const source = this.context.createBufferSource();
-      source.buffer = this.sounds.drums[189];
-
-      const gainNode = this.context.createGain()
-      gainNode.gain.value = 0.7;
-      gainNode.connect(this.context.destination)
-      source.connect(gainNode)
-
-      source.start(time);
-    }
-  }
-
-  playSound(time) {
-    let soundList = _playUtil__WEBPACK_IMPORTED_MODULE_0__["getSoundIdx"](this.beat);
-    if (soundList.length === 0) {
-      return;
-    }
-    soundList.forEach((keyIdx) => {
-      if (keyIdx < 12) {
-        let soundIdx = this.keyCodes.drums[keyIdx];
-        let source = this.context.createBufferSource();
-        source.buffer = this.sounds.drums[soundIdx];
-        source.connect(this.context.destination);
+  return Object.assign({
+    stop: () => {
+      clearTimeout(state.timeoutId);
+      state.recording = false;
+      _playUtil__WEBPACK_IMPORTED_MODULE_0__["clearAllScenes"]('on-beat');
+      _playUtil__WEBPACK_IMPORTED_MODULE_0__["clearAllScenes"]('on-beat-record');
+    },
+  
+    playClick: (time) => {
+      if (state.beat % 16 === 0) {
+        const source = state.context.createBufferSource();
+        source.buffer = state.sounds.drums[189];
+        source.playbackRate.value = 1.2;
+        source.connect(state.context.destination);
         source.start(time);
-      } else if (keyIdx > 11 && keyIdx < 24) {
-        let soundIdx = this.keyCodes.chords[keyIdx-12];
-        let source = this.context.createBufferSource();
-        source.buffer = this.sounds.chords[soundIdx];
-        source.playbackRate.value = _playUtil__WEBPACK_IMPORTED_MODULE_0__["pitchTransform"](keyIdx-12);
-        source.connect(this.context.destination);
-        source.start(time);
-      } else if (keyIdx > 23 && keyIdx < 36) {
-        let soundIdx = this.keyCodes.mono[keyIdx-24];
-        let source = this.context.createBufferSource();
-        source.buffer = this.sounds.mono[soundIdx];
-        source.playbackRate.value = _playUtil__WEBPACK_IMPORTED_MODULE_0__["pitchTransform"](keyIdx-24);
-        const gainNode = this.context.createGain()
-        gainNode.gain.value = 0.6;
-        gainNode.connect(this.context.destination)
+      } else if (state.beat % 4 === 0) {
+  
+        const source = state.context.createBufferSource();
+        source.buffer = state.sounds.drums[189];
+  
+        const gainNode = state.context.createGain()
+        gainNode.gain.value = 0.7;
+        gainNode.connect(state.context.destination)
         source.connect(gainNode)
+  
         source.start(time);
       }
-    });
-  }
-
-  handlePlay() {
-    this.beat = 0;
-    this.noteTime = 0.0
-    this.startTime = this.context.currentTime + .005;
-    this.planNotes();
-  }
-
-  planNotes() {
-    let currentTime = this.context.currentTime;
-    currentTime -= this.startTime;
-    while (this.noteTime < currentTime + .05) {
-      let contextPlayTime = this.noteTime + this.startTime;
-      _playUtil__WEBPACK_IMPORTED_MODULE_0__["highlightBeat"](this.beat, this.recording);
-      _playUtil__WEBPACK_IMPORTED_MODULE_0__["unHighlightBeat"](this.beat, this.recording);
-      this.playSound(contextPlayTime);
-      if (this.metronomePlaying) {
-        this.playClick(contextPlayTime);
-        this.animateMetronomeButton();
-      }
-      this.getNextNoteTime();
-    }
-
-    this.timeoutId = setTimeout(this.planNotes, 0);
-  }
-
-  getNextNoteTime() {
-    let secsPerBeat = 60.0/this.tempo;
-    this.noteTime += .125 * secsPerBeat;
-
-    this.beat === 31 ? this.beat = 0: this.beat += 1;
-  }
-
-  tempoEventListener() {
-    let tempoSlide = document.getElementById('tempo-slide');
-
-    tempoSlide.addEventListener('change', (e) => {
-      this.tempo = e.target.value;
-    })
-  }
-
-  keyHitEventListener() {
-    window.addEventListener('keydown', (e) => {
-      if (this.recording === false){
+    },
+  
+    playSound: (time) => {
+      let soundList = _playUtil__WEBPACK_IMPORTED_MODULE_0__["getSoundIdx"](state.beat);
+      if (soundList.length === 0) {
         return;
       }
-      if (this.validKeySet.has(e.keyCode)) {
-        let code = e.keyCode;
-        let id = _recordingUtil__WEBPACK_IMPORTED_MODULE_1__["matchKeyStrokeToDivId"](code, this.keyCodes, this.beat);
-        const selectedDiv = document.getElementById(id);
-        selectedDiv.classList.add('selected');
+      soundList.forEach((keyIdx) => {
+        if (keyIdx < 12) {
+          let soundIdx = state.keyCodes.drums[keyIdx];
+          let source = state.context.createBufferSource();
+          source.buffer = state.sounds.drums[soundIdx];
+          source.connect(state.context.destination);
+          source.start(time);
+        } else if (keyIdx > 11 && keyIdx < 24) {
+          let soundIdx = state.keyCodes.chords[keyIdx-12];
+          let source = state.context.createBufferSource();
+          source.buffer = state.sounds.chords[soundIdx];
+          source.playbackRate.value = _playUtil__WEBPACK_IMPORTED_MODULE_0__["pitchTransform"](keyIdx-12);
+          source.connect(state.context.destination);
+          source.start(time);
+        } else if (keyIdx > 23 && keyIdx < 36) {
+          let soundIdx = state.keyCodes.mono[keyIdx-24];
+          let source = state.context.createBufferSource();
+          source.buffer = state.sounds.mono[soundIdx];
+          source.playbackRate.value = _playUtil__WEBPACK_IMPORTED_MODULE_0__["pitchTransform"](keyIdx-24);
+          const gainNode = state.context.createGain()
+          gainNode.gain.value = 0.6;
+          gainNode.connect(state.context.destination)
+          source.connect(gainNode)
+          source.start(time);
+        }
+      });
+    },
+  
+    handlePlay: (self) => {
+      state.beat = 0;
+      state.noteTime = 0.0
+      state.startTime = state.context.currentTime + .005;
+      self.planNotes(self);
+    },
+  
+    planNotes: (self) => {
+      let currentTime = state.context.currentTime;
+      currentTime -= state.startTime;
+      while (state.noteTime < currentTime + .05) {
+        let contextPlayTime = state.noteTime + state.startTime;
+        _playUtil__WEBPACK_IMPORTED_MODULE_0__["highlightBeat"](state.beat, state.recording);
+        _playUtil__WEBPACK_IMPORTED_MODULE_0__["unHighlightBeat"](state.beat, state.recording);
+        self.playSound(contextPlayTime);
+        if (state.statePlaying) {
+          self.playClick(contextPlayTime);
+          self.animatestateButton();
+        }
+        self.getNextNoteTime();
       }
-    });
-  }
-
-  animateMetronomeButton() {
-    if (!Array.from(this.button.classList).join('').includes("selected")) {
-      return;
-    }
-    if (this.beat % 16 === 0) {
-      this.button.childNodes[1].classList.remove("far");
-      this.button.childNodes[1].classList.add("fas");
-      this.button.childNodes[3].classList.remove("fas");
-      this.button.childNodes[3].classList.add("far");
-    } else if (this.beat % 8 === 0) {
-      this.button.childNodes[1].classList.remove("fas");
-      this.button.childNodes[1].classList.add("far");
-      this.button.childNodes[3].classList.remove("far");
-      this.button.childNodes[3].classList.add("fas");
-    }
-
-  }
+  
+      state.timeoutId = setTimeout(() => self.planNotes(self), 0);
+    },
+  
+    getNextNoteTime: () => {
+      let secsPerBeat = 60.0/state.tempo;
+      state.noteTime += .125 * secsPerBeat;
+  
+      state.beat === 31 ? state.beat = 0: state.beat += 1;
+    },
+  
+    tempoEventListener: () => {
+      let tempoSlide = document.getElementById('tempo-slide');
+  
+      tempoSlide.addEventListener('change', (e) => {
+        state.tempo = e.target.value;
+      })
+    },
+  
+    keyHitEventListener: () => {
+      window.addEventListener('keydown', (e) => {
+        if (state.recording === false){
+          return;
+        }
+        if (state.validKeySet.has(e.keyCode)) {
+          let code = e.keyCode;
+          let id = _recordingUtil__WEBPACK_IMPORTED_MODULE_1__["matchKeyStrokeToDivId"](code, state.keyCodes, state.beat);
+          const selectedDiv = document.getElementById(id);
+          selectedDiv.classList.add('selected');
+        }
+      });
+    },
+  
+    animateMetronomeButton: () => {
+      if (!Array.from(state.button.classList).join('').includes("selected")) {
+        return;
+      }
+      if (state.beat % 16 === 0) {
+        state.button.childNodes[1].classList.remove("far");
+        state.button.childNodes[1].classList.add("fas");
+        state.button.childNodes[3].classList.remove("fas");
+        state.button.childNodes[3].classList.add("far");
+      } else if (state.beat % 8 === 0) {
+        state.button.childNodes[1].classList.remove("fas");
+        state.button.childNodes[1].classList.add("far");
+        state.button.childNodes[3].classList.remove("far");
+        state.button.childNodes[3].classList.add("fas");
+      }
+  
+    },
+  })
+  
 
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (Metronome);
+/* harmony default export */ __webpack_exports__["default"] = (metronome);
 
 // does this work?
 
