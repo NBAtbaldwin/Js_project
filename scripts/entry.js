@@ -124,7 +124,6 @@ function init() {
       recordButton.children[0].classList.add('fas', 'fa-stop');
 
     } else if (metronome.getState().recording) {
-      console.log('recording')
       PlayUtil.clearAllScenes('on-beat-record');
       metronome.setState({ recording: false });
       recordButton.classList.remove('selected');
@@ -133,7 +132,6 @@ function init() {
       recordButton.children[0].classList.remove('fas', 'fa-stop');
 
     } else if (metronome.getState().playing) {
-      console.log('playing')
       PlayUtil.clearAllScenes('on-beat');
       metronome.setState({ recording: true });
       recordButton.classList.add('selected')

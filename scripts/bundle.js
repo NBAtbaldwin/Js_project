@@ -363,7 +363,6 @@ function init() {
       recordButton.children[0].classList.add('fas', 'fa-stop');
 
     } else if (metronome.getState().recording) {
-      console.log('recording')
       _playUtil__WEBPACK_IMPORTED_MODULE_3__["clearAllScenes"]('on-beat-record');
       metronome.setState({ recording: false });
       recordButton.classList.remove('selected');
@@ -372,7 +371,6 @@ function init() {
       recordButton.children[0].classList.remove('fas', 'fa-stop');
 
     } else if (metronome.getState().playing) {
-      console.log('playing')
       _playUtil__WEBPACK_IMPORTED_MODULE_3__["clearAllScenes"]('on-beat');
       metronome.setState({ recording: true });
       recordButton.classList.add('selected')
@@ -483,7 +481,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const metronome = ({ drumKitArray, chordArray, monoArray, context, tempo, drumKeyCodes, chordKeyCodes, monoKeyCodes, priorState, deltas }) => {
+const metronome = ({ drumKitArray, chordArray, monoArray, context, tempo, drumKeyCodes, chordKeyCodes, monoKeyCodes }) => {
   let state = {
     sounds: {drums: drumKitArray, chords: chordArray, mono: monoArray},
     validKeySet: new Set([65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 222, 13, 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 189, 187]),
@@ -500,10 +498,6 @@ const metronome = ({ drumKitArray, chordArray, monoArray, context, tempo, drumKe
     playing: true,
   }
 
-  priorState ? state = Object.assign({}, priorState, deltas) : state;
-
-  console.log(state);
-
   return Object.assign({}, {
     stop: () => {
       clearTimeout(state.timeoutId);
@@ -513,7 +507,6 @@ const metronome = ({ drumKitArray, chordArray, monoArray, context, tempo, drumKe
     },
   
     playClick: (time) => {
-      console.log('asdsf')
       if (state.beat % 16 === 0) {
         const source = state.context.createBufferSource();
         source.buffer = state.sounds.drums[189];
@@ -580,7 +573,7 @@ const metronome = ({ drumKitArray, chordArray, monoArray, context, tempo, drumKe
       while (state.noteTime < currentTime + .05) {
         let contextPlayTime = state.noteTime + state.startTime;
         _playUtil__WEBPACK_IMPORTED_MODULE_0__["highlightBeat"](state.beat, state.recording);
-        // console.log(state.recording)
+        // (state.recording)
         _playUtil__WEBPACK_IMPORTED_MODULE_0__["unHighlightBeat"](state.beat, state.recording);
         this.playSound(contextPlayTime);
         if (state.metronomePlaying) {
@@ -593,7 +586,6 @@ const metronome = ({ drumKitArray, chordArray, monoArray, context, tempo, drumKe
     },
   
     getNextNoteTime: () => {
-      // console.log(state)
       let secsPerBeat = 60.0/state.tempo;
       state.noteTime += .125 * secsPerBeat;
   
@@ -610,12 +602,10 @@ const metronome = ({ drumKitArray, chordArray, monoArray, context, tempo, drumKe
   
     keyHitEventListener: () => {
       window.addEventListener('keydown', (e) => {
-        console.log(state.recording)
         if (state.recording === false){
           return;
         }
         if (state.validKeySet.has(e.keyCode)) {
-          console.log('sdf')
           let code = e.keyCode;
           let id = _recordingUtil__WEBPACK_IMPORTED_MODULE_1__["matchKeyStrokeToDivId"](code, state.keyCodes, state.beat);
           const selectedDiv = document.getElementById(id);

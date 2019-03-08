@@ -1,7 +1,7 @@
 import * as playUtil from './playUtil';
 import * as recordingUtil from './recordingUtil';
 
-const metronome = ({ drumKitArray, chordArray, monoArray, context, tempo, drumKeyCodes, chordKeyCodes, monoKeyCodes, priorState, deltas }) => {
+const metronome = ({ drumKitArray, chordArray, monoArray, context, tempo, drumKeyCodes, chordKeyCodes, monoKeyCodes }) => {
   let state = {
     sounds: {drums: drumKitArray, chords: chordArray, mono: monoArray},
     validKeySet: new Set([65, 83, 68, 70, 71, 72, 74, 75, 76, 186, 222, 13, 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 219, 221, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 189, 187]),
@@ -18,10 +18,6 @@ const metronome = ({ drumKitArray, chordArray, monoArray, context, tempo, drumKe
     playing: true,
   }
 
-  priorState ? state = Object.assign({}, priorState, deltas) : state;
-
-  console.log(state);
-
   return Object.assign({}, {
     stop: () => {
       clearTimeout(state.timeoutId);
@@ -31,7 +27,6 @@ const metronome = ({ drumKitArray, chordArray, monoArray, context, tempo, drumKe
     },
   
     playClick: (time) => {
-      console.log('asdsf')
       if (state.beat % 16 === 0) {
         const source = state.context.createBufferSource();
         source.buffer = state.sounds.drums[189];
@@ -98,7 +93,7 @@ const metronome = ({ drumKitArray, chordArray, monoArray, context, tempo, drumKe
       while (state.noteTime < currentTime + .05) {
         let contextPlayTime = state.noteTime + state.startTime;
         playUtil.highlightBeat(state.beat, state.recording);
-        // console.log(state.recording)
+        // (state.recording)
         playUtil.unHighlightBeat(state.beat, state.recording);
         this.playSound(contextPlayTime);
         if (state.metronomePlaying) {
@@ -111,7 +106,6 @@ const metronome = ({ drumKitArray, chordArray, monoArray, context, tempo, drumKe
     },
   
     getNextNoteTime: () => {
-      // console.log(state)
       let secsPerBeat = 60.0/state.tempo;
       state.noteTime += .125 * secsPerBeat;
   
@@ -128,12 +122,10 @@ const metronome = ({ drumKitArray, chordArray, monoArray, context, tempo, drumKe
   
     keyHitEventListener: () => {
       window.addEventListener('keydown', (e) => {
-        console.log(state.recording)
         if (state.recording === false){
           return;
         }
         if (state.validKeySet.has(e.keyCode)) {
-          console.log('sdf')
           let code = e.keyCode;
           let id = recordingUtil.matchKeyStrokeToDivId(code, state.keyCodes, state.beat);
           const selectedDiv = document.getElementById(id);
